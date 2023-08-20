@@ -164,7 +164,7 @@ module.exports = require("url");
 
 /***/ }),
 
-/***/ 8081:
+/***/ 3340:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -253,15 +253,15 @@ const routeModule = new AppPageRouteModule({
 
 /***/ }),
 
-/***/ 1042:
+/***/ 8500:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 1232, 23));
 Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 2987, 23));
 Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 831, 23));
 Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 6926, 23));
 Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 4282, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 6505, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 1232, 23))
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 6505, 23))
 
 /***/ }),
 
@@ -272,11 +272,11 @@ Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_re
 
 /***/ }),
 
-/***/ 4710:
+/***/ 5559:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 8886));
-Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 5621))
+Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 5621));
+Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 8886))
 
 /***/ }),
 
@@ -502,6 +502,21 @@ const Label = /*#__PURE__*/ react_.forwardRef(({ className, ...props }, ref)=>/*
 Label.displayName = react_label_dist/* Root */.f.displayName;
 
 
+;// CONCATENATED MODULE: ./src/components/ui/input.tsx
+
+
+
+const Input = /*#__PURE__*/ react_.forwardRef(({ className, type, ...props }, ref)=>{
+    return /*#__PURE__*/ jsx_runtime_.jsx("input", {
+        type: type,
+        className: (0,utils.cn)("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className),
+        ref: ref,
+        ...props
+    });
+});
+Input.displayName = "Input";
+
+
 // EXTERNAL MODULE: ./node_modules/@radix-ui/react-slot/dist/index.mjs
 var react_slot_dist = __webpack_require__(1085);
 ;// CONCATENATED MODULE: ./src/components/ui/button.tsx
@@ -545,21 +560,6 @@ const Button = /*#__PURE__*/ react_.forwardRef(({ className, variant, size, asCh
     });
 });
 Button.displayName = "Button";
-
-
-;// CONCATENATED MODULE: ./src/components/ui/input.tsx
-
-
-
-const Input = /*#__PURE__*/ react_.forwardRef(({ className, type, ...props }, ref)=>{
-    return /*#__PURE__*/ jsx_runtime_.jsx("input", {
-        type: type,
-        className: (0,utils.cn)("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className),
-        ref: ref,
-        ...props
-    });
-});
-Input.displayName = "Input";
 
 
 ;// CONCATENATED MODULE: ./src/components/NewOrder.tsx
@@ -1224,20 +1224,6 @@ function RunningTask() {
 ;// CONCATENATED MODULE: ./src/components/CancelledTask.tsx
 
 
-// type OrderProps = {
-//   order_id: string
-//   order_date: string
-//   customer_id: string
-//   customer_name:string
-//   start_dates: string[]
-//   start_times: string[]
-//   end_dates: string[]
-//   end_times: string[]
-//   order_type: string
-//   location: string
-//   service_fee: string
-//   cancel_date: string
-// }
 const CancelledTask_orders = [
     {
         order_id: "ORD001",
@@ -1661,20 +1647,6 @@ function PauseTask() {
 ;// CONCATENATED MODULE: ./src/components/PaidTask.tsx
 
 
-// type OrderProps = {
-//   order_id: string
-//   order_date: string
-//   customer_id: string
-//   customer_name:string
-//   start_dates: string[]
-//   start_times: string[]
-//   end_dates: string[]
-//   end_times: string[]
-//   order_type: string
-//   location: string
-//   service_fee: string
-//   paid_date: string
-// }
 const PaidTask_orders = [
     {
         order_id: "ORD001",
@@ -1883,20 +1855,6 @@ function PaidTask() {
 ;// CONCATENATED MODULE: ./src/components/UnpaidTask.tsx
 
 
-// type OrderProps = {
-//   order_id: string
-//   order_date: string
-//   customer_id: string
-//   customer_name:string
-//   start_dates: string[]
-//   start_times: string[]
-//   end_dates: string[]
-//   end_times: string[]
-//   order_type: string
-//   location: string
-//   service_fee: string
-//   paid_date: string
-// }
 const UnpaidTask_orders = [
     {
         order_id: "ORD001",
@@ -2226,7 +2184,7 @@ __webpack_require__.r(__webpack_exports__);
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [587,603], () => (__webpack_exec__(8081)));
+var __webpack_exports__ = __webpack_require__.X(0, [587,603], () => (__webpack_exec__(3340)));
 module.exports = __webpack_exports__;
 
 })();
