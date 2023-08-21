@@ -89,23 +89,23 @@ export default function UnpaidTask() {
             <TableCell className="text-right">{order.order_type}</TableCell>
             <TableCell className="text-right">{order.location}</TableCell>
             <TableCell className="text-right">
-              {order.start_dates.map((date) => (
-                <ul key={date}>{date}</ul>
+              {order.start_dates.map((date, index) => (
+                <ul key={index}>{date}</ul>
               ))}
             </TableCell>
             <TableCell className="text-right">
-              {order.end_dates.map((date) => (
-                <ul key={date}>{date}</ul>
+              {order.end_dates.map((date, index) => (
+                <ul key={index}>{date}</ul>
               ))}
             </TableCell>
             <TableCell className="text-right">
-              {order.start_times.map((time) => (
-                <ul key={time}>{time}</ul>
+              {order.start_times.map((time, index) => (
+                <ul key={index}>{time}</ul>
               ))}
             </TableCell>
             <TableCell className="text-right">
-              {order.end_times.map((time) => (
-                <ul key={time}>{time}</ul>
+              {order.end_times.map((time, index) => (
+                <ul key={index}>{time}</ul>
               ))}
             </TableCell>
             <TableCell className="text-right">{order.service_fee}</TableCell>

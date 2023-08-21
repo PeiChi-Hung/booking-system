@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import NewOrder from "@/components/NewOrder"
 import RunningTask from "@/components/RunningTask"
+import RunningMobile from "@/components/RunningMobile"
 import CancelledTask from "@/components/CancelledTask"
 import PauseTask from "@/components/PauseTask"
 import PaidTask from "@/components/PaidTask"
@@ -8,7 +9,7 @@ import UnpaidTask from "@/components/UnpaidTask"
 
 export default function Home() {
   return (
-    <main className="mt-5 px-5">
+    <main className="mt-3 px-3 md:mt-5 md:px-5">
       <Tabs defaultValue="running">
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="running">Running</TabsTrigger>
@@ -21,7 +22,12 @@ export default function Home() {
           <div className="my-5">
             <NewOrder />
           </div>
-          <RunningTask />
+          <div className="hidden md:block">
+            <RunningTask />
+          </div>
+          <div className="block md:hidden">
+            <RunningMobile />
+          </div>
         </TabsContent>
         <TabsContent value="pause">
           <div className="my-5">
