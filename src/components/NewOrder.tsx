@@ -18,7 +18,7 @@ export default function NewOrder() {
       <DialogTrigger asChild>
         <Button>New Order</Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[425px] md:max-w-[600px]">
+      <DialogContent className="max-w-[300px] md:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Make a new order</DialogTitle>
         </DialogHeader>
