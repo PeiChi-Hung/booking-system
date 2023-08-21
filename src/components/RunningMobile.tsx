@@ -46,7 +46,7 @@ export default function RunningMobile() {
   return (
     <div>
       {orders.map((order) => (
-        <div className="space-y-1 mb-4">
+        <div className="space-y-1 mb-4" key={order.order_id}>
           <p className="text-sm font-medium leading-none">
             {order.customer_name}
           </p>
