@@ -1,3 +1,4 @@
+"use client"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import NewOrder from "@/components/NewOrder"
 import RunningTask from "@/components/RunningTask"
