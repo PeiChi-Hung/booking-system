@@ -223,7 +223,7 @@ export default function OrderForm() {
                     {...field}
                   >
                     {orderType.map((type, index) => (
-                      <option value={index}>{type}</option>
+                      <option key={index}>{type}</option>
                     ))}
                   </select>
                 </FormControl>
@@ -250,7 +250,7 @@ export default function OrderForm() {
                     {...field}
                   >
                     {locationOptions.map((type, index) => (
-                      <option value={index}>{type}</option>
+                      <option key={index}>{type}</option>
                     ))}
                   </select>
                 </FormControl>
