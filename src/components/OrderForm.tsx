@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +21,7 @@ import { format } from "date-fns"
 import { Calendar } from "./ui/calendar"
 import { CalendarIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 
+// mock data for location
 const locationOptions = [
   "CBD",
   "Clayton",
@@ -29,8 +29,11 @@ const locationOptions = [
   "South Yarra",
   "Glen Waverley ",
 ]
+
+// mock data for order
 const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 
+// set restriction for each input
 const orderFromSchema = z.object({
   customer_id: z.string().max(100),
   customer_name: z.string(),
@@ -53,6 +56,11 @@ export default function OrderForm() {
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFromSchema),
   })
+
+  // const { fields, append } = useFieldArray({
+  //   name: "urls",
+  //   control: form.control,
+  // })
 
   // submit function
   function onSubmit(values: z.infer<typeof orderFromSchema>) {
@@ -92,174 +100,192 @@ export default function OrderForm() {
             </FormItem>
           )}
         />
-        {/* Start Date */}
-        <FormField
-          control={form.control}
-          name="start_date"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Start Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
+        <div className="grid grid-cols-2">
+          <div>
+            {/* Start Date */}
+            <FormField
+              control={form.control}
+              name="start_date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Start Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[200px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 z-50" align="start">
+                      <Calendar
+                        className="bg-white"
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            {/* Start Date */}
+            <FormField
+              control={form.control}
+              name="end_date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>End Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[200px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 z-50" align="start">
+                      <Calendar
+                        className="bg-white"
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 w-full">
+          <div>
+            {/* Start Time */}
+            <FormField
+              control={form.control}
+              name="start_time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Start Time</FormLabel>
+                  <FormControl className="w-[200px]">
+                    <Input {...field} />
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 z-50" align="start">
-                  <Calendar
-                    className="bg-white"
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date < new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Start Time */}
-        <FormField
-          control={form.control}
-          name="start_time"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start Time</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* End Date */}
-        <FormField
-          control={form.control}
-          name="end_date"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>End Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            {/* End Time */}
+            <FormField
+              control={form.control}
+              name="end_time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>End Time</FormLabel>
+                  <FormControl className="w-[200px]">
+                    <Input {...field} />
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 z-50" align="start">
-                  <Calendar
-                    className="bg-white"
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date < new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* End Time */}
-        <FormField
-          control={form.control}
-          name="end_time"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End Time</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Order Type */}
-        <FormField
-          control={form.control}
-          name="order_type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Order Type</FormLabel>
-              <div className="relative w-max">
-                <FormControl>
-                  <select
-                    className={cn(
-                      buttonVariants({ variant: "outline" }),
-                      "w-[200px] appearance-none bg-transparent font-normal"
-                    )}
-                    {...field}
-                  >
-                    {orderType.map((type, index) => (
-                      <option key={index}>{type}</option>
-                    ))}
-                  </select>
-                </FormControl>
-                <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Location */}
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Location</FormLabel>
-              <div className="relative w-max">
-                <FormControl>
-                  <select
-                    className={cn(
-                      buttonVariants({ variant: "outline" }),
-                      "w-[200px] appearance-none bg-transparent font-normal"
-                    )}
-                    {...field}
-                  >
-                    {locationOptions.map((type, index) => (
-                      <option key={index}>{type}</option>
-                    ))}
-                  </select>
-                </FormControl>
-                <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 w-full">
+          {/* Order Type */}
+          <div>
+            <FormField
+              control={form.control}
+              name="order_type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Order Type</FormLabel>
+                  <div className="relative w-max">
+                    <FormControl>
+                      <select
+                        className={cn(
+                          buttonVariants({ variant: "outline" }),
+                          "w-[200px] appearance-none bg-transparent font-normal"
+                        )}
+                        {...field}
+                      >
+                        {orderType.map((type, index) => (
+                          <option key={index}>{type}</option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-full">
+            {/* Location */}
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location</FormLabel>
+                  <div className="relative w-max">
+                    <FormControl>
+                      <select
+                        className={cn(
+                          buttonVariants({ variant: "outline" }),
+                          "w-[200px] appearance-none bg-transparent font-normal"
+                        )}
+                        {...field}
+                      >
+                        {locationOptions.map((type, index) => (
+                          <option key={index}>{type}</option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
