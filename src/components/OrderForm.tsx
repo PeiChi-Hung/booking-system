@@ -100,7 +100,7 @@ export default function OrderForm() {
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 w-full space-x-2">
           <div>
             {/* Start Date */}
             <FormField
@@ -115,7 +115,7 @@ export default function OrderForm() {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[200px] pl-3 text-left font-normal",
+                            "pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -160,7 +160,7 @@ export default function OrderForm() {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[200px] pl-3 text-left font-normal",
+                            "pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -192,7 +192,7 @@ export default function OrderForm() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-2 w-full">
+        <div className="grid grid-cols-2 w-full space-x-2">
           <div>
             {/* Start Time */}
             <FormField
@@ -201,7 +201,7 @@ export default function OrderForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Start Time</FormLabel>
-                  <FormControl className="w-[200px]">
+                  <FormControl>
                     <Input {...field} />
                   </FormControl>
                   <FormMessage />
@@ -217,7 +217,7 @@ export default function OrderForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>End Time</FormLabel>
-                  <FormControl className="w-[200px]">
+                  <FormControl>
                     <Input {...field} />
                   </FormControl>
                   <FormMessage />
@@ -226,7 +226,7 @@ export default function OrderForm() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-2 w-full">
+        <div className="grid grid-cols-2 w-full space-x-2">
           {/* Order Type */}
           <div>
             <FormField
