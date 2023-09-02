@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "./ui/form"
 import { Input } from "./ui/input"
-import { Button, buttonVariants } from "./ui/button"
+import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
 import {
   Popover,
@@ -19,7 +19,16 @@ import {
 } from "@radix-ui/react-popover"
 import { format } from "date-fns"
 import { Calendar } from "./ui/calendar"
-import { CalendarIcon, ChevronDownIcon } from "@radix-ui/react-icons"
+import { CalendarIcon } from "@radix-ui/react-icons"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select"
+import { Separator } from "./ui/separator"
+import { toast } from "./ui/use-toast"
 
 // mock data for location
 const locationOptions = [
@@ -33,28 +42,39 @@ const locationOptions = [
 // mock data for order
 const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 
+// zod schema
 // set restriction for each input
-const orderFromSchema = z.object({
-  customer_id: z.string().max(100),
-  customer_name: z.string(),
-  order_type: z.string(),
-  location: z.string(),
-  start_date: z.date({
-    required_error: "Start date is required",
-  }),
-  end_date: z.date({
-    required_error: "End date is required",
-  }),
-  // To be checked
-  start_time: z.string().datetime({ message: "Please pick a start time" }),
-  end_time: z.string().datetime({ message: "Please pick a end time" }),
-})
+const orderFromSchema = z
+  .object({
+    customer_name: z.string().max(100),
+    customer_id: z.string().min(10).max(100),
+    order_type: z.string(),
+    location: z.string(),
+    start_date: z.date({
+      required_error: "Start date is required",
+    }),
+    end_date: z.date({
+      required_error: "End date is required",
+    }),
+    // To be checked
+    // start_time: z.string().datetime({ message: "Please pick a start time" }),
+    // end_time: z.string().datetime({ message: "Please pick a end time" }),
+  })
+  .refine((data) => data.end_date > data.start_date, {
+    message: "End date cannot be earlier than start date.",
+    path: ["end_date"],
+  })
 
+// covert zod schema into typescript types
 type OrderFormValues = z.infer<typeof orderFromSchema>
 
 export default function OrderForm() {
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFromSchema),
+    defaultValues: {
+      customer_name: "",
+      customer_id: "",
+    },
   })
 
   // const { fields, append } = useFieldArray({
@@ -63,11 +83,21 @@ export default function OrderForm() {
   // })
 
   // submit function
-  function onSubmit(values: z.infer<typeof orderFromSchema>) {
+  function onSubmit(values: OrderFormValues) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
   }
+  // function onSubmit(data: OrderFormValues) {
+  //   toast({
+  //     title: "You submitted the following values:",
+  //     description: (
+  //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+  //         <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+  //       </pre>
+  //     ),
+  //   })
+  // }
 
   return (
     <Form {...form}>
@@ -100,6 +130,32 @@ export default function OrderForm() {
             </FormItem>
           )}
         />
+        {/* Order Type */}
+        <FormField
+          control={form.control}
+          name="order_type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Order Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select an order type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {orderType.map((type, index) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
         <div className="grid grid-cols-2 w-full space-x-2">
           <div>
             {/* Start Date */}
@@ -147,7 +203,7 @@ export default function OrderForm() {
             />
           </div>
           <div>
-            {/* Start Date */}
+            {/* End Date */}
             <FormField
               control={form.control}
               name="end_date"
@@ -192,100 +248,33 @@ export default function OrderForm() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-2 w-full space-x-2">
-          <div>
-            {/* Start Time */}
-            <FormField
-              control={form.control}
-              name="start_time"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Start Time</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div>
-            {/* End Time */}
-            <FormField
-              control={form.control}
-              name="end_time"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>End Time</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 w-full space-x-2">
-          {/* Order Type */}
-          <div>
-            <FormField
-              control={form.control}
-              name="order_type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Order Type</FormLabel>
-                  <div className="relative w-max">
-                    <FormControl>
-                      <select
-                        className={cn(
-                          buttonVariants({ variant: "outline" }),
-                          "w-[200px] appearance-none bg-transparent font-normal"
-                        )}
-                        {...field}
-                      >
-                        {orderType.map((type, index) => (
-                          <option key={index}>{type}</option>
-                        ))}
-                      </select>
-                    </FormControl>
-                    <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="w-full">
-            {/* Location */}
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <div className="relative w-max">
-                    <FormControl>
-                      <select
-                        className={cn(
-                          buttonVariants({ variant: "outline" }),
-                          "w-[200px] appearance-none bg-transparent font-normal"
-                        )}
-                        {...field}
-                      >
-                        {locationOptions.map((type, index) => (
-                          <option key={index}>{type}</option>
-                        ))}
-                      </select>
-                    </FormControl>
-                    <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
+
+        {/* Location */}
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Location</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a location" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {locationOptions.map((type, index) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
         <Button type="submit">Submit</Button>
       </form>
     </Form>

@@ -1,13 +1,6 @@
 "use client"
 
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog"
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 
 import { Button } from "./ui/button"
 
@@ -21,6 +14,7 @@ export default function NewOrder() {
         <Button>New Order</Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogTitle>Make a new order</DialogTitle>
         <OrderForm />
       </DialogContent>
     </Dialog>
