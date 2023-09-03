@@ -1,4 +1,11 @@
 import { Separator } from "@/components/ui/separator"
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogContent,
+} from "./ui/dialog"
 
 const orders = [
   {
@@ -46,20 +53,45 @@ export default function RunningMobile() {
   return (
     <div>
       {orders.map((order) => (
-        <div className="space-y-1 mb-4" key={order.order_id}>
-          <p className="text-sm font-medium leading-none">
-            {order.customer_name}
-          </p>
-          <div>
-            <p className="text-sm text-muted-foreground w-3/4 inline-block">
-              {order.order_type}
-            </p>
-            <p className="text-sm text-muted-foreground w-1/4 inline-block">
-              {order.order_date}
-            </p>
-          </div>
-          <Separator />
-        </div>
+        <Dialog key={order.order_id}>
+          <DialogTrigger className="space-y-1 mb-4 w-full">
+            <div>
+              <p className="text-sm font-medium leading-none text-left">
+                {order.customer_name}
+              </p>
+              <div>
+                <p className="text-sm text-muted-foreground w-3/4 inline-block text-left">
+                  {order.order_type}
+                </p>
+                <p className="text-sm text-muted-foreground w-1/4 inline-block">
+                  {order.order_date}
+                </p>
+              </div>
+            </div>
+            <Separator />
+          </DialogTrigger>
+          <DialogContent className="w-5/6">
+            <DialogHeader>
+              <DialogTitle>Order detail</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-2">
+              <p>Customer Name: {order.customer_name}</p>
+              <p>Customer ID: {order.customer_id}</p>
+              <p>Order Type: {order.order_type}</p>
+              <p>Order Date: {order.order_date}</p>
+              {order.expectations.map((expectation, index) => (
+                <div key={index} className="space-y-2">
+                  <Separator />
+                  <p>Start Date: {expectation.start_date}</p>
+                  <p>End Date: {expectation.end_date}</p>
+                  <p>Start Time: {expectation.start_time}</p>
+                  <p>End Time: {expectation.end_time}</p>
+                  <Separator />
+                </div>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
       ))}
     </div>
   )

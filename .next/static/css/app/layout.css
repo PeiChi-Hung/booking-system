@@ -685,6 +685,9 @@ video {
 .mb-4 {
   margin-bottom: 1rem;
 }
+.ml-auto {
+  margin-left: auto;
+}
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -693,9 +696,6 @@ video {
 }
 .mt-4 {
   margin-top: 1rem;
-}
-.ml-auto {
-  margin-left: auto;
 }
 .block {
   display: block;
@@ -769,6 +769,9 @@ video {
 .w-10 {
   width: 2.5rem;
 }
+.w-2\/3 {
+  width: 66.666667%;
+}
 .w-3 {
   width: 0.75rem;
 }
@@ -799,11 +802,14 @@ video {
 .w-\[340px\] {
   width: 340px;
 }
+.w-auto {
+  width: auto;
+}
 .w-full {
   width: 100%;
 }
-.w-auto {
-  width: auto;
+.w-5\/6 {
+  width: 83.333333%;
 }
 .min-w-\[8rem\] {
   min-width: 8rem;
@@ -848,11 +854,11 @@ video {
      -moz-user-select: none;
           user-select: none;
 }
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 .flex-col {
   flex-direction: column;
@@ -883,6 +889,11 @@ video {
   margin-right: calc(0.25rem * var(--tw-space-x-reverse));
   margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
+.space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -907,16 +918,6 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
-}
-.space-y-8 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
-}
-.space-x-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 .overflow-auto {
   overflow: auto;
@@ -1037,6 +1038,9 @@ video {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.pl-3 {
+  padding-left: 0.75rem;
+}
 .pl-8 {
   padding-left: 2rem;
 }
@@ -1054,9 +1058,6 @@ video {
 }
 .pt-3 {
   padding-top: 0.75rem;
-}
-.pl-3 {
-  padding-left: 0.75rem;
 }
 .text-left {
   text-align: left;
