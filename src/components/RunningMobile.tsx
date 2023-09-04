@@ -79,9 +79,9 @@ export default function RunningMobile() {
               <p>Customer ID: {order.customer_id}</p>
               <p>Order Type: {order.order_type}</p>
               <p>Order Date: {order.order_date}</p>
+              <Separator />
               {order.expectations.map((expectation, index) => (
                 <div key={index} className="space-y-2">
-                  <Separator />
                   <p>Start Date: {expectation.start_date}</p>
                   <p>End Date: {expectation.end_date}</p>
                   <p>Start Time: {expectation.start_time}</p>

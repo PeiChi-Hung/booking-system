@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useFieldArray, useForm } from "react-hook-form"
 import {
   Form,
   FormControl,
@@ -49,7 +49,11 @@ const orderFromSchema = z
     customer_name: z.string().max(100),
     customer_id: z.string().min(10).max(100),
     order_type: z.string(),
-    location: z.string(),
+    location: z.array(
+      z.object({
+        value: z.string(),
+      })
+    ),
     start_date: z.date({
       required_error: "Start date is required",
     }),
@@ -74,13 +78,15 @@ export default function OrderForm() {
     defaultValues: {
       customer_name: "",
       customer_id: "",
+      location: [{ value: "" }],
     },
+    mode: "onChange",
   })
 
-  // const { fields, append } = useFieldArray({
-  //   name: "urls",
-  //   control: form.control,
-  // })
+  const { fields, append } = useFieldArray({
+    name: "location",
+    control: form.control,
+  })
 
   // submit function
   function onSubmit(values: OrderFormValues) {
@@ -250,30 +256,46 @@ export default function OrderForm() {
         </div>
 
         {/* Location */}
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Location</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a location" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {locationOptions.map((type, index) => (
-                    <SelectItem key={index} value={type}>
-                      {type}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div>
+          {fields.map((field, index) => (
+            <FormField
+              control={form.control}
+              key={field.id}
+              name={`location.${index}.value`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className={cn(index !== 0 && "sr-only")}>
+                    Location
+                  </FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue="">
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select a location" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {locationOptions.map((type, index) => (
+                        <SelectItem key={index} value={type}>
+                          {type}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() => append({ value: "" })}
+          >
+            Add location
+          </Button>
+        </div>
         <Separator />
         <Button type="submit">Submit</Button>
       </form>

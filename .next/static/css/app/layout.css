@@ -769,9 +769,6 @@ video {
 .w-10 {
   width: 2.5rem;
 }
-.w-2\/3 {
-  width: 66.666667%;
-}
 .w-3 {
   width: 0.75rem;
 }
@@ -783,6 +780,9 @@ video {
 }
 .w-4 {
   width: 1rem;
+}
+.w-5\/6 {
+  width: 83.333333%;
 }
 .w-7 {
   width: 1.75rem;
@@ -807,9 +807,6 @@ video {
 }
 .w-full {
   width: 100%;
-}
-.w-5\/6 {
-  width: 83.333333%;
 }
 .min-w-\[8rem\] {
   min-width: 8rem;
