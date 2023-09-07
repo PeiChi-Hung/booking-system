@@ -44,30 +44,34 @@ const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 
 // zod schema
 // set restriction for each input
-const orderFromSchema = z
-  .object({
-    customer_name: z.string().max(100),
-    customer_id: z.string().min(10).max(100),
-    order_type: z.string(),
-    location: z.array(
-      z.object({
-        value: z.string(),
-      })
-    ),
-    start_date: z.date({
-      required_error: "Start date is required",
-    }),
-    end_date: z.date({
-      required_error: "End date is required",
-    }),
-    // To be checked
-    // start_time: z.string().datetime({ message: "Please pick a start time" }),
-    // end_time: z.string().datetime({ message: "Please pick a end time" }),
-  })
-  .refine((data) => data.end_date > data.start_date, {
-    message: "End date cannot be earlier than start date.",
-    path: ["end_date"],
-  })
+const orderFromSchema = z.object({
+  customer_name: z.string().max(100),
+  customer_id: z.string().min(10).max(100),
+  order_type: z.string(),
+  expectation: z.array(
+    z.object({
+      start_date: z.date({
+        required_error: "Start date is required",
+      }),
+      end_date: z.date({
+        required_error: "End date is required",
+      }),
+    })
+  ),
+
+  location: z.array(
+    z.object({
+      value: z.string(),
+    })
+  ),
+  // To be checked
+  // start_time: z.string().datetime({ message: "Please pick a start time" }),
+  // end_time: z.string().datetime({ message: "Please pick a end time" }),
+})
+// .refine((data) => data.expectation.end_date > data.expectation.start_date, {
+//   message: "End date cannot be earlier than start date.",
+//   path: ["end_date"],
+// })
 
 // covert zod schema into typescript types
 type OrderFormValues = z.infer<typeof orderFromSchema>
@@ -162,98 +166,112 @@ export default function OrderForm() {
           )}
         />
         <Separator />
-        <div className="grid grid-cols-2 w-full space-x-2">
-          <div>
-            {/* Start Date */}
-            <FormField
-              control={form.control}
-              name="start_date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Start Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 z-50" align="start">
-                      <Calendar
-                        className="bg-white"
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div>
+
+        {/* Start Date */}
+        {fields.map((field, index) => (
+          <div className="grid grid-cols-2 w-full space-x-2">
+            <div>
+              <FormField
+                control={form.control}
+                key={field.id}
+                name={`expectation.${index}.start_date`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Start Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 z-50" align="start">
+                        <Calendar
+                          className="bg-white"
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date < new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             {/* End Date */}
-            <FormField
-              control={form.control}
-              name="end_date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>End Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 z-50" align="start">
-                      <Calendar
-                        className="bg-white"
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div>
+              <FormField
+                control={form.control}
+                name={`expectation.${index}.end_date`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>End Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 z-50" align="start">
+                        <Calendar
+                          className="bg-white"
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date < new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-        </div>
+        ))}
+        {/* </div> */}
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="mt-2"
+          onClick={() => append({ value: "" })}
+        >
+          Add Date
+        </Button>
 
         {/* Location */}
         <div>
