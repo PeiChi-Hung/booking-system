@@ -49,14 +49,19 @@ const orderFromSchema = z.object({
   customer_id: z.string().min(10).max(100),
   order_type: z.string(),
   expectation: z.array(
-    z.object({
-      start_date: z.date({
-        required_error: "Start date is required",
-      }),
-      end_date: z.date({
-        required_error: "End date is required",
-      }),
-    })
+    z
+      .object({
+        start_date: z.date({
+          required_error: "Start date is required",
+        }),
+        end_date: z.date({
+          required_error: "End date is required",
+        }),
+      })
+      .refine((data) => data.end_date > data.start_date, {
+        message: "End date cannot be earlier than start date.",
+        path: ["end_date"],
+      })
   ),
 
   location: z.array(
@@ -68,10 +73,6 @@ const orderFromSchema = z.object({
   // start_time: z.string().datetime({ message: "Please pick a start time" }),
   // end_time: z.string().datetime({ message: "Please pick a end time" }),
 })
-// .refine((data) => data.expectation.end_date > data.expectation.start_date, {
-//   message: "End date cannot be earlier than start date.",
-//   path: ["end_date"],
-// })
 
 // covert zod schema into typescript types
 type OrderFormValues = z.infer<typeof orderFromSchema>
@@ -87,11 +88,16 @@ export default function OrderForm() {
     mode: "onChange",
   })
 
-  const { fields, append } = useFieldArray({
+  const { fields: locationFields, append: locationAppend } = useFieldArray({
     name: "location",
     control: form.control,
   })
 
+  const { fields: expectationFields, append: expectationAppend } =
+    useFieldArray({
+      name: "location",
+      control: form.control,
+    })
   // submit function
   function onSubmit(values: OrderFormValues) {
     // Do something with the form values.
@@ -168,7 +174,7 @@ export default function OrderForm() {
         <Separator />
 
         {/* Start Date */}
-        {fields.map((field, index) => (
+        {expectationFields.map((field, index) => (
           <div className="grid grid-cols-2 w-full space-x-2" key={field.id}>
             <div>
               <FormField
@@ -267,17 +273,17 @@ export default function OrderForm() {
           variant="outline"
           size="sm"
           className="mt-2"
-          onClick={() => append({ value: "" })}
+          onClick={() => expectationAppend({ value: "" })}
         >
           Add Date
         </Button>
 
         {/* Location */}
         <div>
-          {fields.map((field, index) => (
+          {locationFields.map((locationfield, index) => (
             <FormField
               control={form.control}
-              key={field.id}
+              key={locationfield.id}
               name={`location.${index}.value`}
               render={({ field }) => (
                 <FormItem>
@@ -308,7 +314,7 @@ export default function OrderForm() {
             variant="outline"
             size="sm"
             className="mt-2"
-            onClick={() => append({ value: "" })}
+            onClick={() => locationAppend({ value: "" })}
           >
             Add location
           </Button>
