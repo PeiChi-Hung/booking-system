@@ -6,6 +6,7 @@ import {
   DialogTrigger,
   DialogContent,
 } from "./ui/dialog"
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
 const orders = [
   {
@@ -54,21 +55,25 @@ export default function RunningMobile() {
     <div>
       {orders.map((order) => (
         <Dialog key={order.order_id}>
-          <DialogTrigger className="space-y-1 mb-4 w-full">
-            <div>
-              <p className="text-sm font-medium leading-none text-left">
+          <DialogTrigger className="space-y-1 mb-2 w-full">
+            <Card>
+              {/* <p className="text-sm font-medium leading-none text-left">
                 {order.customer_name}
-              </p>
-              <div>
+              </p> */}
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+                <CardTitle className="text-sm font-medium">
+                  {order.customer_name}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-xs text-muted-foreground">
                 <p className="text-sm text-muted-foreground w-3/4 inline-block text-left">
                   {order.order_type}
                 </p>
                 <p className="text-sm text-muted-foreground w-1/4 inline-block">
                   {order.order_date}
                 </p>
-              </div>
-            </div>
-            <Separator />
+              </CardContent>
+            </Card>
           </DialogTrigger>
           <DialogContent className="w-5/6">
             <DialogHeader>
