@@ -169,11 +169,10 @@ export default function OrderForm() {
 
         {/* Start Date */}
         {fields.map((field, index) => (
-          <div className="grid grid-cols-2 w-full space-x-2">
+          <div className="grid grid-cols-2 w-full space-x-2" key={field.id}>
             <div>
               <FormField
                 control={form.control}
-                key={field.id}
                 name={`expectation.${index}.start_date`}
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
@@ -219,7 +218,6 @@ export default function OrderForm() {
             <div>
               <FormField
                 control={form.control}
-                key={field.id}
                 name={`expectation.${index}.end_date`}
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
