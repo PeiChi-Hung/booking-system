@@ -219,6 +219,7 @@ export default function OrderForm() {
             <div>
               <FormField
                 control={form.control}
+                key={field.id}
                 name={`expectation.${index}.end_date`}
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
