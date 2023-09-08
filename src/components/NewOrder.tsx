@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 
 import OrderForm from "./OrderForm"
+import { ScrollArea } from "./ui/scroll-area"
 
 export default function NewOrder() {
   return (
@@ -13,10 +14,12 @@ export default function NewOrder() {
       <DialogTrigger asChild>
         <Button>New Order</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Make a new order</DialogTitle>
-        <OrderForm />
-      </DialogContent>
+      <ScrollArea>
+        <DialogContent>
+          <DialogTitle>Make a new order</DialogTitle>
+          <OrderForm />
+        </DialogContent>
+      </ScrollArea>
     </Dialog>
   )
 }
