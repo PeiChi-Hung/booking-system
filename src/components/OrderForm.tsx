@@ -59,20 +59,19 @@ const orderFromSchema = z.object({
           required_error: "End date is required",
         }),
       })
-      .refine((data) => data.end_date > data.start_date, {
+      .refine((data) => data.end_date >= data.start_date, {
         message: "End date cannot be earlier than start date.",
         path: ["end_date"],
       })
   ),
 
-  location: z.array(
-    z.object({
-      value: z.string(),
-    })
-  ),
-  // To be checked
-  // start_time: z.string().datetime({ message: "Please pick a start time" }),
-  // end_time: z.string().datetime({ message: "Please pick a end time" }),
+  location: z
+    .array(
+      z.object({
+        value: z.string().min(1, { message: "Required" }),
+      })
+    )
+    .min(1),
 })
 
 // covert zod schema into typescript types
@@ -183,10 +182,68 @@ export default function OrderForm() {
         />
         <Separator />
 
+        {/* Location */}
+        <div>
+          {locationFields.map((locationfield, index) => (
+            <div key={locationfield.id}>
+              <FormField
+                control={form.control}
+                name={`location.${index}.value`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>
+                      Location
+                    </FormLabel>
+                    <div>
+                      <Select onValueChange={field.onChange} defaultValue="">
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a location" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {locationOptions.map((type, index) => (
+                            <SelectItem key={index} value={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        className={
+                          index === 0 && locationfield.value == ""
+                            ? "hidden"
+                            : "block mt-2"
+                        }
+                        onClick={() => locationRemove(index)}
+                      >
+                        Remove location
+                      </Button>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() => locationAppend({ value: "" })}
+          >
+            Add location
+          </Button>
+        </div>
+
         {/* Start Date */}
         <div>
-          {expectationFields.map((field, index) => (
-            <div key={field.id}>
+          {expectationFields.map((expectationfield, index) => (
+            <div key={expectationfield.id}>
               <div className="grid grid-cols-2 w-full space-x-2">
                 <div>
                   <FormField
@@ -197,42 +254,59 @@ export default function OrderForm() {
                         <FormLabel className={cn(index !== 0 && "sr-only")}>
                           Start Date
                         </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP")
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="w-auto p-0 z-50"
-                            align="start"
+                        <div>
+                          <Popover>
+                            <PopoverTrigger asChild className="w-full">
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "pl-3 text-left font-normal",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0 z-50"
+                              align="start"
+                            >
+                              <Calendar
+                                className="bg-white"
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) =>
+                                  date < new Date() ||
+                                  date < new Date("1900-01-01")
+                                }
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            className={
+                              index === 0 &&
+                              !expectationfield.start_date &&
+                              !expectationfield.end_date
+                                ? "hidden"
+                                : "block mt-2"
+                            }
+                            onClick={() => expectationRemove(index)}
                           >
-                            <Calendar
-                              className="bg-white"
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date < new Date() ||
-                                date < new Date("1900-01-01")
-                              }
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
+                            Remove Date
+                          </Button>
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -290,15 +364,6 @@ export default function OrderForm() {
                   />
                 </div>
               </div>
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                className={index < 1 ? "hidden" : "mt-2"}
-                onClick={() => expectationRemove(index)}
-              >
-                Remove Date
-              </Button>
             </div>
           ))}
           {/* </div> */}
@@ -318,57 +383,6 @@ export default function OrderForm() {
           </Button>
         </div>
 
-        {/* Location */}
-        <div>
-          {locationFields.map((locationfield, index) => (
-            <div key={locationfield.id}>
-              <FormField
-                control={form.control}
-                name={`location.${index}.value`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={cn(index !== 0 && "sr-only")}>
-                      Location
-                    </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue="">
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select a location" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {locationOptions.map((type, index) => (
-                          <SelectItem key={index} value={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className={index < 1 ? "hidden" : "block mt-2"}
-                onClick={() => locationRemove(index)}
-              >
-                Remove location
-              </Button>
-            </div>
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => locationAppend({ value: "" })}
-          >
-            Add location
-          </Button>
-        </div>
         <Separator />
         <Button type="submit">Submit</Button>
       </form>
