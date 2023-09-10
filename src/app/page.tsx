@@ -33,14 +33,20 @@ export default function Home() {
               {runningCount}
             </Badge>
           </TabsTrigger>
-          <TabsTrigger value="pause">
-            Pause
+          <TabsTrigger value="paused">
+            Paused
             <Badge
               className={cn(
-                pauseCount > 0 ? "ml-2 bg-yellow-300" : "ml-2 bg-transparent"
+                pauseCount > 0 ? "ml-2 bg-yellow-400" : "ml-2 bg-transparent"
               )}
             >
               {pauseCount}
+            </Badge>
+          </TabsTrigger>
+          <TabsTrigger value="failed">
+            Failed
+            <Badge className={cn(failedCount > 0 ? "ml-2 bg-red-500" : "ml-2")}>
+              {failedCount}
             </Badge>
           </TabsTrigger>
           <TabsTrigger value="unpaid">
@@ -52,12 +58,6 @@ export default function Home() {
           </TabsTrigger>
           <TabsTrigger value="cancelled">
             Cancelled <Badge className="ml-2">{cancelledCount}</Badge>
-          </TabsTrigger>
-          <TabsTrigger value="failed">
-            Failed
-            <Badge className={cn(failedCount > 0 ? "ml-2 bg-red-500" : "ml-2")}>
-              {failedCount}
-            </Badge>
           </TabsTrigger>
         </TabsList>
         <TabsContent value="running">
@@ -71,7 +71,7 @@ export default function Home() {
             <RunningMobile />
           </div>
         </TabsContent>
-        <TabsContent value="pause">
+        <TabsContent value="paused">
           <div className="my-5">
             <NewOrder />
           </div>
