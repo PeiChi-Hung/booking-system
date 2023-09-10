@@ -16,7 +16,7 @@ const pauseCount = 4
 const unpaidCount = 4
 const paidCount = 4
 const cancelledCount = 4
-const failedCount = 4
+const failedCount = 0
 
 export default function Home() {
   return (
@@ -43,16 +43,19 @@ export default function Home() {
               {pauseCount}
             </Badge>
           </TabsTrigger>
-          <TabsTrigger value="unpaid">Unpaid</TabsTrigger>
-          <TabsTrigger value="paid">Paid</TabsTrigger>
-          <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+          <TabsTrigger value="unpaid">
+            Unpaid
+            <Badge className="ml-2">{unpaidCount}</Badge>
+          </TabsTrigger>
+          <TabsTrigger value="paid">
+            Paid <Badge className="ml-2">{paidCount}</Badge>
+          </TabsTrigger>
+          <TabsTrigger value="cancelled">
+            Cancelled <Badge className="ml-2">{cancelledCount}</Badge>
+          </TabsTrigger>
           <TabsTrigger value="failed">
             Failed
-            <Badge
-              className={cn(
-                failedCount > 0 ? "ml-2 bg-red-500" : "ml-2 bg-transparent"
-              )}
-            >
+            <Badge className={cn(failedCount > 0 ? "ml-2 bg-red-500" : "ml-2")}>
               {failedCount}
             </Badge>
           </TabsTrigger>
