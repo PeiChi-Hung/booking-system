@@ -12,12 +12,13 @@ export default function Home() {
   return (
     <main className="mt-3 px-3 md:mt-5 md:px-5">
       <Tabs defaultValue="running">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-6 md:grid-rows-none w-full gap-3 h-full">
           <TabsTrigger value="running">Running</TabsTrigger>
           <TabsTrigger value="pause">Pause</TabsTrigger>
           <TabsTrigger value="unpaid">Unpaid</TabsTrigger>
           <TabsTrigger value="paid">Paid</TabsTrigger>
           <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+          <TabsTrigger value="failed">Failed</TabsTrigger>
         </TabsList>
         <TabsContent value="running">
           <div className="my-5">
@@ -54,6 +55,7 @@ export default function Home() {
           </div>
           <CancelledTask />
         </TabsContent>
+        <TabsContent value="failed"></TabsContent>
       </Tabs>
     </main>
   )

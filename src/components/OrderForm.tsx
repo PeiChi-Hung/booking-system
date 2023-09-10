@@ -47,7 +47,7 @@ const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 // set restriction for each input
 const orderFromSchema = z.object({
   customer_name: z.string().max(100),
-  customer_id: z.string().min(10).max(100),
+  customer_id: z.string().min(9).max(10),
   order_type: z.string(),
   expectation: z.array(
     z
@@ -71,7 +71,7 @@ const orderFromSchema = z.object({
         value: z.string().min(1, { message: "Required" }),
       })
     )
-    .min(1),
+    .nonempty("Location is required"),
 })
 
 // covert zod schema into typescript types
@@ -229,6 +229,7 @@ export default function OrderForm() {
               />
             </div>
           ))}
+
           <Button
             type="button"
             variant="outline"
