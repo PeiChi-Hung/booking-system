@@ -29,7 +29,6 @@ import {
 } from "./ui/select"
 import { Separator } from "./ui/separator"
 import { toast } from "./ui/use-toast"
-import { ScrollArea } from "./ui/scroll-area"
 
 // mock data for location
 const locationOptions = [
@@ -50,28 +49,35 @@ const orderFromSchema = z.object({
   customer_id: z.string().min(9).max(10),
   order_type: z.string(),
   expectation: z.array(
-    z
-      .object({
-        start_date: z.date({
-          required_error: "Start date is required",
-        }),
-        end_date: z.date({
-          required_error: "End date is required",
-        }),
-      })
-      .refine((data) => data.end_date >= data.start_date, {
-        message: "End date cannot be earlier than start date.",
-        path: ["end_date"],
-      })
+    z.object({
+      dates: z.array(
+        z
+          .object({
+            start_date: z.date({
+              required_error: "Start date is required",
+            }),
+            end_date: z.date({
+              required_error: "End date is required",
+            }),
+          })
+          .refine((data) => data.end_date >= data.start_date, {
+            message: "End date cannot be earlier than start date.",
+            path: ["end_date"],
+          })
+      ),
+      location: z.array(
+        z.object({
+          value: z.string().min(1, { message: "Required" }),
+        })
+      ),
+    })
   ),
 
-  location: z
-    .array(
-      z.object({
-        value: z.string().min(1, { message: "Required" }),
-      })
-    )
-    .nonempty("Location is required"),
+  // location: z.array(
+  //   z.object({
+  //     value: z.string().min(1, { message: "Required" }),
+  //   })
+  // ),
 })
 
 // covert zod schema into typescript types
@@ -84,8 +90,9 @@ export default function OrderForm() {
       customer_name: "",
       customer_id: "",
       // undefined may conflict with the default state of a controlled component.
-      expectation: [{ start_date: undefined, end_date: undefined }],
-      location: [{ value: "" }],
+      // expectation: [{ start_date: undefined, end_date: undefined }],
+      expectation: [{ location: [{ value: "" }] }],
+      // location: [{ value: "" }],
     },
     mode: "onChange",
   })
@@ -95,7 +102,7 @@ export default function OrderForm() {
     append: locationAppend,
     remove: locationRemove,
   } = useFieldArray({
-    name: "location",
+    name: "expectation.${index}.location" as "expectation.0.location",
     control: form.control,
   })
 
@@ -105,6 +112,15 @@ export default function OrderForm() {
     remove: expectationRemove,
   } = useFieldArray({
     name: "expectation",
+    control: form.control,
+  })
+
+  const {
+    fields: expectationDateFields,
+    append: expectationDateAppend,
+    remove: expectationDateRemove,
+  } = useFieldArray({
+    name: "expectation.${index}.dates" as "expectation.0.dates",
     control: form.control,
   })
   // submit function
@@ -127,20 +143,6 @@ export default function OrderForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {/* Customer Name */}
-        <FormField
-          control={form.control}
-          name="customer_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Customer Name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         {/* Customer ID */}
         <FormField
           control={form.control}
@@ -148,6 +150,21 @@ export default function OrderForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Customer ID</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Customer Name */}
+        <FormField
+          control={form.control}
+          name="customer_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Customer Name</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -182,192 +199,215 @@ export default function OrderForm() {
         />
         <Separator />
 
-        {/* Location */}
+        {/* Expectations */}
         <div>
-          {locationFields.map((locationfield, index) => (
-            <div key={locationfield.id}>
-              <FormField
-                control={form.control}
-                name={`location.${index}.value`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={cn(index !== 0 && "sr-only")}>
-                      Location
-                    </FormLabel>
-                    <div>
-                      <Select onValueChange={field.onChange} defaultValue="">
-                        <FormControl>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select a location" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {locationOptions.map((type, index) => (
-                            <SelectItem key={index} value={type}>
-                              {type}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+          {expectationFields.map((expectationFiled, expectationIndex) => (
+            <div key={expectationFiled.id} className="space-y-2">
+              {/* Location */}
+              <div>
+                {/* <h1>Expectation {expectationIndex + 1}</h1> */}
+                {locationFields.map((locationfield, index, array) => (
+                  <div key={locationfield.id}>
+                    <FormField
+                      control={form.control}
+                      name={`expectation.${expectationIndex}.location.${index}`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className={cn(index !== 0 && "sr-only")}>
+                            Location
+                          </FormLabel>
+                          <div>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue=""
+                            >
+                              <FormControl>
+                                <SelectTrigger className="w-full">
+                                  <SelectValue placeholder="Select a location" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {locationOptions.map((type, index) => (
+                                  <SelectItem key={index} value={type}>
+                                    {type}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              size="sm"
+                              className={
+                                array.length == 1 ? "hidden" : "block mt-2"
+                              }
+                              onClick={() => locationRemove(index)}
+                            >
+                              Remove location
+                            </Button>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                  onClick={() => locationAppend({ value: "" })}
+                >
+                  Add location
+                </Button>
+              </div>
+              {/* Start Date */}
+              <div>
+                {expectationDateFields.map(
+                  (expectationDatefield, index, array) => (
+                    <div key={expectationDatefield.id}>
+                      <div className="grid grid-cols-2 w-full space-x-2">
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name={`expectation.${expectationIndex}.dates.${index}.start_date`}
+                            render={({ field }) => (
+                              <FormItem className="flex flex-col">
+                                <FormLabel
+                                  className={cn(index !== 0 && "sr-only")}
+                                >
+                                  Start Date
+                                </FormLabel>
+
+                                <Popover>
+                                  <PopoverTrigger asChild className="w-full">
+                                    <FormControl>
+                                      <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                          "pl-3 text-left font-normal",
+                                          !field.value &&
+                                            "text-muted-foreground"
+                                        )}
+                                      >
+                                        {field.value ? (
+                                          format(field.value, "PPP")
+                                        ) : (
+                                          <span>Pick a date</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                    </FormControl>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    className="w-auto p-0 z-50"
+                                    align="start"
+                                  >
+                                    <Calendar
+                                      className="bg-white"
+                                      mode="single"
+                                      selected={field.value}
+                                      onSelect={field.onChange}
+                                      disabled={(date) =>
+                                        date < new Date() ||
+                                        date < new Date("1900-01-01")
+                                      }
+                                      initialFocus
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                        {/* End Date */}
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name={`expectation.${expectationIndex}.dates.${index}.end_date`}
+                            render={({ field }) => (
+                              <FormItem className="flex flex-col">
+                                <FormLabel
+                                  className={cn(index !== 0 && "sr-only")}
+                                >
+                                  End Date
+                                </FormLabel>
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <FormControl>
+                                      <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                          "pl-3 text-left font-normal",
+                                          !field.value &&
+                                            "text-muted-foreground"
+                                        )}
+                                      >
+                                        {field.value ? (
+                                          format(field.value, "PPP")
+                                        ) : (
+                                          <span>Pick a date</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                    </FormControl>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    className="w-auto p-0 z-50"
+                                    align="start"
+                                  >
+                                    <Calendar
+                                      className="bg-white"
+                                      mode="single"
+                                      selected={field.value}
+                                      onSelect={field.onChange}
+                                      disabled={(date) =>
+                                        date < new Date() ||
+                                        date < new Date("1900-01-01")
+                                      }
+                                      initialFocus
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
                       <Button
                         type="button"
                         variant="secondary"
                         size="sm"
-                        className={
-                          index === 0 && locationfield.value == ""
-                            ? "hidden"
-                            : "block mt-2"
-                        }
-                        onClick={() => locationRemove(index)}
+                        className={array.length === 1 ? "hidden" : "block mt-2"}
+                        onClick={() => expectationDateRemove(index)}
                       >
-                        Remove location
+                        Remove Date
                       </Button>
                     </div>
-                    <FormMessage />
-                  </FormItem>
+                  )
                 )}
-              />
-            </div>
-          ))}
 
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => locationAppend({ value: "" })}
-          >
-            Add location
-          </Button>
-        </div>
-
-        {/* Start Date */}
-        <div>
-          {expectationFields.map((expectationfield, index) => (
-            <div key={expectationfield.id}>
-              <div className="grid grid-cols-2 w-full space-x-2">
-                <div>
-                  <FormField
-                    control={form.control}
-                    name={`expectation.${index}.start_date`}
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel className={cn(index !== 0 && "sr-only")}>
-                          Start Date
-                        </FormLabel>
-                        <div>
-                          <Popover>
-                            <PopoverTrigger asChild className="w-full">
-                              <FormControl>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>Pick a date</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0 z-50"
-                              align="start"
-                            >
-                              <Calendar
-                                className="bg-white"
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                  date < new Date() ||
-                                  date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            size="sm"
-                            className={
-                              index === 0 &&
-                              !expectationfield.start_date &&
-                              !expectationfield.end_date
-                                ? "hidden"
-                                : "block mt-2"
-                            }
-                            onClick={() => expectationRemove(index)}
-                          >
-                            Remove Date
-                          </Button>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                {/* End Date */}
-                <div>
-                  <FormField
-                    control={form.control}
-                    name={`expectation.${index}.end_date`}
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel className={cn(index !== 0 && "sr-only")}>
-                          End Date
-                        </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP")
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="w-auto p-0 z-50"
-                            align="start"
-                          >
-                            <Calendar
-                              className="bg-white"
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date < new Date() ||
-                                date < new Date("1900-01-01")
-                              }
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                  onClick={() =>
+                    expectationDateAppend({
+                      start_date: "" as unknown as Date,
+                      end_date: "" as unknown as Date,
+                    })
+                  }
+                >
+                  Add Date
+                </Button>
               </div>
+              <Separator />
             </div>
           ))}
-          {/* </div> */}
           <Button
             type="button"
             variant="outline"
@@ -375,15 +415,14 @@ export default function OrderForm() {
             className="mt-2"
             onClick={() =>
               expectationAppend({
-                start_date: "" as unknown as Date,
-                end_date: "" as unknown as Date,
+                dates: [{ start_date: new Date(), end_date: new Date() }],
+                location: [{ value: "" }],
               })
             }
           >
-            Add Date
+            Add Expectation
           </Button>
         </div>
-
         <Separator />
         <Button type="submit">Submit</Button>
       </form>
