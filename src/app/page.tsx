@@ -25,43 +25,57 @@ export default function Home() {
       <main className="mt-3 px-3 md:mt-5 md:px-5">
         <Tabs defaultValue="running">
           <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-6 md:grid-rows-none w-full gap-3 h-full">
-            <TabsTrigger value="running">
+            <TabsTrigger value="running" className="hover:bg-slate-200">
               Running
               <Badge
                 className={cn(
-                  runningCount > 0 ? "ml-2 bg-green-500" : "ml-2 bg-transparent"
+                  runningCount > 0
+                    ? "ml-2 bg-green-500 hover:bg-green-500"
+                    : "ml-2 bg-transparent"
                 )}
               >
                 {runningCount}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="paused">
+            <TabsTrigger value="paused" className="hover:bg-slate-200">
               Paused
               <Badge
                 className={cn(
-                  pauseCount > 0 ? "ml-2 bg-yellow-400" : "ml-2 bg-transparent"
+                  pauseCount > 0
+                    ? "ml-2 bg-yellow-400 hover:bg-yellow-400"
+                    : "ml-2 bg-transparent"
                 )}
               >
                 {pauseCount}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="failed">
+            <TabsTrigger value="failed" className="hover:bg-slate-200">
               Failed
               <Badge
-                className={cn(failedCount > 0 ? "ml-2 bg-red-500" : "ml-2")}
+                className={cn(
+                  failedCount > 0 ? "ml-2 bg-red-500 hover:bg-red-500" : "ml-2"
+                )}
               >
                 {failedCount}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="unpaid">
+            <TabsTrigger value="unpaid" className="hover:bg-slate-200">
               Unpaid
-              <Badge className="ml-2">{unpaidCount}</Badge>
+              <Badge className={cn("ml-2 bg-gray-400 hover:bg-gray-400")}>
+                {unpaidCount}
+              </Badge>
             </TabsTrigger>
-            <TabsTrigger value="paid">
-              Paid <Badge className="ml-2">{paidCount}</Badge>
+            <TabsTrigger value="paid" className="hover:bg-slate-200">
+              Paid{" "}
+              <Badge className={cn("ml-2 bg-gray-400 hover:bg-gray-400")}>
+                {paidCount}
+              </Badge>
             </TabsTrigger>
-            <TabsTrigger value="cancelled">
-              Cancelled <Badge className="ml-2">{cancelledCount}</Badge>
+            <TabsTrigger value="cancelled" className="hover:bg-slate-200">
+              Cancelled{" "}
+              <Badge className={cn("ml-2 bg-gray-400 hover:bg-gray-400")}>
+                {cancelledCount}
+              </Badge>
             </TabsTrigger>
           </TabsList>
           <TabsContent value="running">

@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@radix-ui/react-popover"
-import { format } from "date-fns"
+import { format, setHours } from "date-fns"
 import { Calendar } from "./ui/calendar"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import {
@@ -28,6 +28,8 @@ import {
   SelectValue,
 } from "./ui/select"
 import { Separator } from "./ui/separator"
+import { Textarea } from "@/components/ui/textarea"
+import DatePicker from "react-datepicker"
 
 // mock data for location
 const locationOptions = [
@@ -59,6 +61,8 @@ const orderFromSchema = z.object({
             end_date: z.date({
               required_error: "End date is required",
             }),
+            start_time: z.string(),
+            // end_time: z.string().datetime(),
           })
           .refine((data) => data.end_date > data.start_date, {
             message: "End date cannot be earlier than start date.",
@@ -67,6 +71,7 @@ const orderFromSchema = z.object({
       ),
     })
   ),
+  comment: z.string().max(100),
 })
 
 // covert zod schema into typescript types
@@ -89,7 +94,7 @@ const OrderExpectation = ({
   return (
     <section>
       {fields.map((field, index, array) => (
-        <div key={field.id}>
+        <div key={field.id} className="space-y-2">
           <div className="grid grid-cols-2 w-full space-x-2">
             <FormField
               control={control}
@@ -191,6 +196,27 @@ const OrderExpectation = ({
           >
             Remove Date
           </Button>
+          <div>
+            <FormField
+              control={control}
+              name={`location.${nestedIndex}.expectation.${index}.start_time`}
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel className={cn(index !== 0 && "sr-only")}>
+                    Start Time
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="time"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
       ))}
       <Button
@@ -198,12 +224,12 @@ const OrderExpectation = ({
         variant="outline"
         size="sm"
         className="mt-2"
-        onClick={() =>
-          append({
-            start_date: "" as unknown as Date,
-            end_date: "" as unknown as Date,
-          })
-        }
+        // onClick={() =>
+        //   append({
+        //     start_date: "" as unknown as Date,
+        //     end_date: "" as unknown as Date,
+        //   })
+        // }
       >
         Add Date
       </Button>
@@ -221,7 +247,9 @@ export default function OrderForm() {
       location: [
         {
           locationValue: "",
-          expectation: [{ start_date: undefined, end_date: undefined }],
+          expectation: [
+            { start_date: undefined, end_date: undefined, start_time: "09:00" },
+          ],
         },
       ],
     },
@@ -257,20 +285,6 @@ export default function OrderForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {/* Customer Name */}
-        <FormField
-          control={form.control}
-          name="customer_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Customer Name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         {/* Customer ID */}
         <FormField
           control={form.control}
@@ -278,6 +292,20 @@ export default function OrderForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Customer ID</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Customer Name */}
+        <FormField
+          control={form.control}
+          name="customer_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Customer Name</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -317,7 +345,6 @@ export default function OrderForm() {
           {locationFields.map((locationfield, index, array) => (
             <div key={locationfield.id} className="space-y-4">
               <p>Location {index + 1}</p>
-
               <FormField
                 control={form.control}
                 name={`location.${index}.locationValue`}
@@ -342,6 +369,7 @@ export default function OrderForm() {
                   </FormItem>
                 )}
               />
+              {/* Expectation */}
               <OrderExpectation nestedIndex={index} control={form.control} />
               <Button
                 type="button"
@@ -360,22 +388,36 @@ export default function OrderForm() {
             variant="outline"
             size="sm"
             className="mt-2"
-            onClick={() =>
-              locationAppend({
-                locationValue: "",
-                expectation: [
-                  {
-                    start_date: "" as unknown as Date,
-                    end_date: "" as unknown as Date,
-                  },
-                ],
-              })
-            }
+            // onClick={() =>
+            //   locationAppend({
+            //     locationValue: "",
+            //     expectation: [
+            //       {
+            //         start_date: "" as unknown as Date,
+            //         end_date: "" as unknown as Date,
+            //       },
+            //     ],
+            //   })
+            // }
           >
             Add location
           </Button>
         </div>
         <Separator />
+        <FormField
+          control={form.control}
+          name="comment"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comment</FormLabel>
+              <FormControl>
+                <Textarea className="resize-none" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
