@@ -29,7 +29,6 @@ import {
 } from "./ui/select"
 import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
-import DatePicker from "react-datepicker"
 
 // mock data for location
 const locationOptions = [
@@ -62,7 +61,7 @@ const orderFromSchema = z.object({
               required_error: "End date is required",
             }),
             start_time: z.string(),
-            // end_time: z.string().datetime(),
+            end_time: z.string(),
           })
           .refine((data) => data.end_date > data.start_date, {
             message: "End date cannot be earlier than start date.",
@@ -92,63 +91,61 @@ const OrderExpectation = ({
   })
 
   return (
-    <section>
+    <section className="space-y-2">
       {fields.map((field, index, array) => (
         <div key={field.id} className="space-y-2">
           <div className="grid grid-cols-2 w-full space-x-2">
-            <FormField
-              control={control}
-              name={`location.${nestedIndex}.expectation.${index}.start_date`}
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    Start Date
-                  </FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 z-50" align="start">
-                      <Calendar
-                        className="bg-white"
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div>
+              <FormField
+                control={control}
+                name={`location.${nestedIndex}.expectation.${index}.start_date`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Start Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 z-50" align="start">
+                        <Calendar
+                          className="bg-white"
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date < new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div>
               <FormField
                 control={control}
                 name={`location.${nestedIndex}.expectation.${index}.end_date`}
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className={cn(index !== 0 && "sr-only")}>
-                      End Date
-                    </FormLabel>
+                    <FormLabel>End Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -187,36 +184,61 @@ const OrderExpectation = ({
               />
             </div>
           </div>
+          <div className="grid grid-cols-2 w-full space-x-2">
+            <div>
+              <FormField
+                control={control}
+                name={`location.${nestedIndex}.expectation.${index}.start_time`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Start Time</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="time"
+                        value={field.value}
+                        onChange={field.onChange}
+                        min="09:00"
+                        max="17:00"
+                        required
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={control}
+                name={`location.${nestedIndex}.expectation.${index}.end_time`}
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>End Time</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="time"
+                        value={field.value}
+                        onChange={field.onChange}
+                        min="09:00"
+                        max="17:00"
+                        required
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
           <Button
             type="button"
             variant="secondary"
             size="sm"
-            className={array.length === 1 ? "hidden" : "block mt-2"}
+            className={array.length === 1 ? "hidden" : "block mt-2 w-full"}
             onClick={() => remove(index)}
           >
             Remove Date
           </Button>
-          <div>
-            <FormField
-              control={control}
-              name={`location.${nestedIndex}.expectation.${index}.start_time`}
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    Start Time
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="time"
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
         </div>
       ))}
       <Button
@@ -224,12 +246,14 @@ const OrderExpectation = ({
         variant="outline"
         size="sm"
         className="mt-2"
-        // onClick={() =>
-        //   append({
-        //     start_date: "" as unknown as Date,
-        //     end_date: "" as unknown as Date,
-        //   })
-        // }
+        onClick={() =>
+          append({
+            start_date: "" as unknown as Date,
+            end_date: "" as unknown as Date,
+            start_time: "",
+            end_time: "",
+          })
+        }
       >
         Add Date
       </Button>
@@ -248,7 +272,12 @@ export default function OrderForm() {
         {
           locationValue: "",
           expectation: [
-            { start_date: undefined, end_date: undefined, start_time: "09:00" },
+            {
+              start_date: undefined,
+              end_date: undefined,
+              start_time: "09:00 AM",
+              // end_time: "05:00 PM",
+            },
           ],
         },
       ],
@@ -388,17 +417,19 @@ export default function OrderForm() {
             variant="outline"
             size="sm"
             className="mt-2"
-            // onClick={() =>
-            //   locationAppend({
-            //     locationValue: "",
-            //     expectation: [
-            //       {
-            //         start_date: "" as unknown as Date,
-            //         end_date: "" as unknown as Date,
-            //       },
-            //     ],
-            //   })
-            // }
+            onClick={() =>
+              locationAppend({
+                locationValue: "",
+                expectation: [
+                  {
+                    start_date: "" as unknown as Date,
+                    end_date: "" as unknown as Date,
+                    start_time: "",
+                    end_time: "",
+                  },
+                ],
+              })
+            }
           >
             Add location
           </Button>
@@ -413,7 +444,6 @@ export default function OrderForm() {
               <FormControl>
                 <Textarea className="resize-none" {...field} />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
