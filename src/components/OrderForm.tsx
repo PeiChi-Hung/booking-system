@@ -46,7 +46,7 @@ const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 // set restriction for each input
 const orderFromSchema = z.object({
   customer_name: z.string().max(100),
-  customer_id: z.string().max(10),
+  customer_id: z.preprocess(Number, z.number().max(9999999999)),
   order_type: z.string(),
   location: z.array(
     z.object({
@@ -66,6 +66,10 @@ const orderFromSchema = z.object({
           .refine((data) => data.end_date > data.start_date, {
             message: "End date cannot be earlier than start date.",
             path: ["end_date"],
+          })
+          .refine((data) => data.end_time < data.start_time, {
+            message: "End time cannot be earlier than start time",
+            path: ["end_time"],
           })
       ),
     })
@@ -197,7 +201,7 @@ const OrderExpectation = ({
                         type="time"
                         value={field.value}
                         onChange={field.onChange}
-                        min="09:00"
+                        min="08:00"
                         max="17:00"
                         required
                       />
@@ -219,7 +223,7 @@ const OrderExpectation = ({
                         type="time"
                         value={field.value}
                         onChange={field.onChange}
-                        min="09:00"
+                        min="08:00"
                         max="17:00"
                         required
                       />
@@ -266,7 +270,7 @@ export default function OrderForm() {
     resolver: zodResolver(orderFromSchema),
     defaultValues: {
       customer_name: "",
-      customer_id: "",
+      customer_id: undefined,
       // undefined may conflict with the default state of a controlled component.
       location: [
         {
