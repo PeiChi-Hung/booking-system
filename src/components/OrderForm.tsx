@@ -46,7 +46,8 @@ const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 // set restriction for each input
 const orderFromSchema = z.object({
   customer_name: z.string().max(100),
-  customer_id: z.preprocess(Number, z.number().max(9999999999)),
+  customer_id: z.preprocess(Number, z.number().max(999999999)),
+  // customer_id: z.string().length(10),
   order_type: z.string(),
   location: z.array(
     z.object({
@@ -66,10 +67,6 @@ const orderFromSchema = z.object({
           .refine((data) => data.end_date > data.start_date, {
             message: "End date cannot be earlier than start date.",
             path: ["end_date"],
-          })
-          .refine((data) => data.end_time < data.start_time, {
-            message: "End time cannot be earlier than start time",
-            path: ["end_time"],
           })
       ),
     })
@@ -280,7 +277,7 @@ export default function OrderForm() {
               start_date: undefined,
               end_date: undefined,
               start_time: "09:00 AM",
-              // end_time: "05:00 PM",
+              end_time: "05:00 PM",
             },
           ],
         },
@@ -340,7 +337,7 @@ export default function OrderForm() {
             <FormItem>
               <FormLabel>Customer Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input type="number" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

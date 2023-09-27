@@ -20,6 +20,7 @@ const orders = [
     end_times: ["13:00"],
     order_type: "Type 1",
     locations: ["Springvale"],
+    comment: "dfja;dfo",
   },
   {
     order_id: "ORD002",
@@ -75,6 +76,7 @@ export default function RunningTask() {
           <TableHead className="text-right">End Date</TableHead>
           <TableHead className="text-right">Start Time</TableHead>
           <TableHead className="text-right">End Time</TableHead>
+          <TableHead className="text-right">Comment</TableHead>
           {/* TODO: buttons */}
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
@@ -111,6 +113,7 @@ export default function RunningTask() {
                 <ul key={index}>{time}</ul>
               ))}
             </TableCell>
+            <TableCell></TableCell>
             <TableCell className="text-right">
               <Button>Update</Button>
               <Button className="mx-1">Pause</Button>

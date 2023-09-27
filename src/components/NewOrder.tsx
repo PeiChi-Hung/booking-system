@@ -14,7 +14,10 @@ export default function NewOrder() {
         <Button>New Order</Button>
       </DialogTrigger>
 
-      <DialogContent className="lg:max-w-screen-md overflow-y-scroll md:max-h-screen h-4/5">
+      <DialogContent
+        className="lg:max-w-screen-md overflow-y-scroll md:max-h-screen h-4/5"
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
         <DialogTitle>Make a new order</DialogTitle>
         <OrderForm />
       </DialogContent>
