@@ -46,8 +46,7 @@ const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 // set restriction for each input
 const orderFromSchema = z.object({
   customer_name: z.string().max(100),
-  customer_id: z.preprocess(Number, z.number().max(999999999)),
-  // customer_id: z.string().length(10),
+  customer_id: z.string().regex(new RegExp("^[0-9]+$")).max(10),
   order_type: z.string(),
   location: z.array(
     z.object({
@@ -64,14 +63,14 @@ const orderFromSchema = z.object({
             start_time: z.string(),
             end_time: z.string(),
           })
-          .refine((data) => data.end_date > data.start_date, {
+          .refine((data) => data.end_date >= data.start_date, {
             message: "End date cannot be earlier than start date.",
             path: ["end_date"],
           })
       ),
     })
   ),
-  comment: z.string().max(100),
+  comment: z.string().max(100).optional(),
 })
 
 // covert zod schema into typescript types
@@ -267,7 +266,7 @@ export default function OrderForm() {
     resolver: zodResolver(orderFromSchema),
     defaultValues: {
       customer_name: "",
-      customer_id: undefined,
+      customer_id: "",
       // undefined may conflict with the default state of a controlled component.
       location: [
         {
@@ -294,6 +293,10 @@ export default function OrderForm() {
     name: "location",
     control: form.control,
   })
+
+  function zeroPad(id: string) {
+    id.toString().padStart(10, "0")
+  }
 
   // submit function
   function onSubmit(values: OrderFormValues) {
@@ -323,7 +326,7 @@ export default function OrderForm() {
             <FormItem>
               <FormLabel>Customer ID</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} onChange={zeroPad(field.value)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -337,7 +340,7 @@ export default function OrderForm() {
             <FormItem>
               <FormLabel>Customer Name</FormLabel>
               <FormControl>
-                <Input type="number" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
