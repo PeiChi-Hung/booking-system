@@ -294,10 +294,6 @@ export default function OrderForm() {
     control: form.control,
   })
 
-  function zeroPad(id: string) {
-    id.toString().padStart(10, "0")
-  }
-
   // submit function
   function onSubmit(values: OrderFormValues) {
     // Do something with the form values.
@@ -326,7 +322,7 @@ export default function OrderForm() {
             <FormItem>
               <FormLabel>Customer ID</FormLabel>
               <FormControl>
-                <Input {...field} onChange={zeroPad(field.value)} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
