@@ -76,6 +76,7 @@ export default function PauseTask() {
           <TableHead className="text-right">Start Time</TableHead>
           <TableHead className="text-right">End Time</TableHead>
           {/* TODO: buttons */}
+          <TableHead className="text-right">Comment</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
@@ -111,6 +112,7 @@ export default function PauseTask() {
                 <ul key={index}>{time}</ul>
               ))}
             </TableCell>
+            <TableCell></TableCell>
             <TableCell className="text-right">
               <Button>Update</Button>
               <Button className="mx-1">Resume</Button>

@@ -322,7 +322,12 @@ export default function OrderForm() {
             <FormItem>
               <FormLabel>Customer ID</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  onBlur={(e) =>
+                    (e.target.value = e.target.value.padStart(10, "0"))
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -402,12 +407,12 @@ export default function OrderForm() {
               <OrderExpectation nestedIndex={index} control={form.control} />
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 size="sm"
-                className={array.length == 1 ? "hidden" : "block mt-2"}
+                className={array.length == 1 ? "hidden" : "block mt-2 w-full"}
                 onClick={() => locationRemove(index)}
               >
-                Remove location
+                Remove Location
               </Button>
               <Separator />
             </div>

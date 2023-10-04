@@ -4316,10 +4316,6 @@ video {
     width: auto;
   }
 
-  .lg\:max-w-screen-md {
-    max-width: 768px;
-  }
-
   .lg\:items-center {
     align-items: center;
   }

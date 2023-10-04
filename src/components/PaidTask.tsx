@@ -81,6 +81,7 @@ export default function PaidTask() {
           <TableHead className="text-right">End Date</TableHead>
           <TableHead className="text-right">Start Time</TableHead>
           <TableHead className="text-right">End Time</TableHead>
+          <TableHead className="text-right">Comment</TableHead>
           <TableHead className="text-right">Service Fee</TableHead>
           <TableHead className="text-right">Paid Date</TableHead>
         </TableRow>
@@ -113,6 +114,7 @@ export default function PaidTask() {
                 <ul key={index}>{time}</ul>
               ))}
             </TableCell>
+            <TableCell></TableCell>
             <TableCell className="text-right">{order.service_fee}</TableCell>
             <TableCell className="text-right">{order.paid_date}</TableCell>
           </TableRow>
