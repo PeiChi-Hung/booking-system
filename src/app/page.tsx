@@ -5,6 +5,7 @@ import RunningTask from "@/components/RunningTask"
 import RunningMobile from "@/components/RunningMobile"
 import CancelledTask from "@/components/CancelledTask"
 import PauseTask from "@/components/PauseTask"
+import PauseMobile from "@/components/PauseMobile"
 import PaidTask from "@/components/PaidTask"
 import UnpaidTask from "@/components/UnpaidTask"
 import { Badge } from "@/components/ui/badge"
@@ -101,7 +102,12 @@ export default function Home() {
             <div className="my-5">
               <NewOrder />
             </div>
-            <PauseTask />
+            <div className="hidden md:block">
+              <PauseTask />
+            </div>
+            <div className="block md:hidden">
+              <PauseMobile />
+            </div>
           </TabsContent>
           <TabsContent value="unpaid">
             <div className="my-5">

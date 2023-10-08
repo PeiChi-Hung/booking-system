@@ -818,6 +818,10 @@ video {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
 }
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
 .-ml-2 {
   margin-left: -0.5rem;
 }
@@ -1945,6 +1949,9 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.text-muted {
+  color: hsl(var(--muted));
 }
 .underline {
   text-decoration-line: underline;

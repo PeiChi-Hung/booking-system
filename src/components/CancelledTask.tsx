@@ -81,6 +81,7 @@ export default function CancelledTask() {
           <TableHead className="text-right">End Date</TableHead>
           <TableHead className="text-right">Start Time</TableHead>
           <TableHead className="text-right">End Time</TableHead>
+          <TableHead className="text-right">Comment</TableHead>
           <TableHead className="text-right">Service Fee</TableHead>
           <TableHead className="text-right">Cancel Date</TableHead>
         </TableRow>
@@ -113,6 +114,7 @@ export default function CancelledTask() {
                 <ul key={index}>{time}</ul>
               ))}
             </TableCell>
+            <TableCell></TableCell>
             <TableCell className="text-right">{order.service_fee}</TableCell>
             <TableCell className="text-right">{order.cancel_date}</TableCell>
           </TableRow>
