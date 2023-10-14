@@ -2,15 +2,18 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import NewOrder from "@/components/NewOrder"
 import RunningTask from "@/components/RunningTask"
-import RunningMobile from "@/components/RunningMobile"
+import RunningMobile from "@/components/mobile/RunningMobile"
 import CancelledTask from "@/components/CancelledTask"
 import PauseTask from "@/components/PauseTask"
-import PauseMobile from "@/components/PauseMobile"
+import PauseMobile from "@/components/mobile/PauseMobile"
 import PaidTask from "@/components/PaidTask"
+import PaidMobile from "@/components/mobile/PaidMobile"
 import UnpaidTask from "@/components/UnpaidTask"
+import UnpaidMobile from "@/components/mobile/UnpaidMobile"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { NextUIProvider } from "@nextui-org/react"
+import CancelledMobile from "@/components/mobile/CancelledMobile"
 
 // following numbers will be replaced by API
 const runningCount = 4
@@ -113,19 +116,34 @@ export default function Home() {
             <div className="my-5">
               <NewOrder />
             </div>
-            <UnpaidTask />
+            <div className="hidden md:block">
+              <UnpaidTask />
+            </div>
+            <div className="block md:hidden">
+              <UnpaidMobile />
+            </div>
           </TabsContent>
           <TabsContent value="paid">
             <div className="my-5">
               <NewOrder />
             </div>
-            <PaidTask />
+            <div className="hidden md:block">
+              <PaidTask />
+            </div>
+            <div className="block md:hidden">
+              <PaidMobile />
+            </div>
           </TabsContent>
           <TabsContent value="cancelled">
             <div className="my-5">
               <NewOrder />
             </div>
-            <CancelledTask />
+            <div className="hidden md:block">
+              <CancelledTask />
+            </div>
+            <div className="block md:hidden">
+              <CancelledMobile />
+            </div>
           </TabsContent>
           <TabsContent value="failed"></TabsContent>
         </Tabs>
