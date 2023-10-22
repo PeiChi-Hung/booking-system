@@ -147,6 +147,9 @@ export default function Home() {
             </div>
           </TabsContent>
           <TabsContent value="failed">
+            <div className="my-5">
+              <NewOrder />
+            </div>
             <FailedTask />
           </TabsContent>
         </Tabs>
