@@ -1,6 +1,12 @@
 "use client"
 import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu"
 
 export default function Navbar() {
   const [isOpen, setisOpen] = useState(false)
@@ -35,14 +41,28 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 py-2 lg:text-lg lg:flex lg:items-center lg:gap-x-14 leading-relaxed">
-          <Avatar className="">
-            <AvatarImage src="https://github.com/shadcn.png" className="" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
           <ul>Orders</ul>
           <ul>Reports</ul>
         </div>
       </div>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <div className="flex flex-row items-center space-x-3">
+            <div className="hidden lg:flex lg:flex-col">
+              <span className="items-center">abc@gmail.com</span>
+              <span className="items-center text-xs">Agent Name</span>
+            </div>
+            <Avatar className="top-0 right-0">
+              <AvatarImage src="https://github.com/shadcn.png" className="" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-52">
+          <DropdownMenuItem>Sign Out</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </nav>
   )
 }
