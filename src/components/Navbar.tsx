@@ -35,7 +35,7 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 py-2 lg:text-lg lg:flex lg:items-center lg:gap-x-14 leading-relaxed">
-          <Avatar className="mb-3">
+          <Avatar className="">
             <AvatarImage src="https://github.com/shadcn.png" className="" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>

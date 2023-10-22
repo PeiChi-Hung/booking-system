@@ -13,7 +13,7 @@ const orders = [
     order_id: "ORD003",
     order_date: "2023/05/02",
     customer_id: "0000000002",
-    customer_name: "Beta",
+    customer_name: "Beta-cancelled",
     order_type: "Type 2",
     expectations: [
       {

@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { NextUIProvider } from "@nextui-org/react"
 import CancelledMobile from "@/components/mobile/CancelledMobile"
+import FailedTask from "@/components/FailedTask"
 
 // following numbers will be replaced by API
 const runningCount = 4
@@ -74,7 +75,7 @@ export default function Home() {
               </Badge>
             </TabsTrigger>
             <TabsTrigger value="paid" className="hover:bg-slate-200">
-              Paid{" "}
+              Paid
               <Badge
                 className={cn("ml-1 md:ml-2 bg-gray-400 hover:bg-gray-400")}
               >
@@ -82,7 +83,7 @@ export default function Home() {
               </Badge>
             </TabsTrigger>
             <TabsTrigger value="cancelled" className="hover:bg-slate-200">
-              Cancelled{" "}
+              Cancelled
               <Badge
                 className={cn("ml-1 md:ml-2 bg-gray-400 hover:bg-gray-400")}
               >
@@ -145,7 +146,9 @@ export default function Home() {
               <CancelledMobile />
             </div>
           </TabsContent>
-          <TabsContent value="failed"></TabsContent>
+          <TabsContent value="failed">
+            <FailedTask />
+          </TabsContent>
         </Tabs>
       </main>
     </NextUIProvider>
