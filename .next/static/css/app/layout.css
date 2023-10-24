@@ -821,14 +821,6 @@ video {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
 }
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-.mx-3 {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
-}
 .-ml-2 {
   margin-left: -0.5rem;
 }
@@ -1046,6 +1038,9 @@ video {
 .w-5\/6 {
   width: 83.333333%;
 }
+.w-52 {
+  width: 13rem;
+}
 .w-6 {
   width: 1.5rem;
 }
@@ -1070,6 +1065,9 @@ video {
 .w-\[340px\] {
   width: 340px;
 }
+.w-\[75px\] {
+  width: 75px;
+}
 .w-\[80\%\] {
   width: 80%;
 }
@@ -1084,18 +1082,6 @@ video {
 }
 .w-screen {
   width: 100vw;
-}
-.w-\[75px\] {
-  width: 75px;
-}
-.w-20 {
-  width: 5rem;
-}
-.w-56 {
-  width: 14rem;
-}
-.w-52 {
-  width: 13rem;
 }
 .min-w-\[200px\] {
   min-width: 200px;
@@ -1415,6 +1401,11 @@ video {
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
+.space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -1444,11 +1435,6 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
-}
-.space-x-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
 }
 .self-center {
   align-self: center;
@@ -4278,10 +4264,6 @@ video {
     margin-left: 0.5rem;
   }
 
-  .md\:mt-3 {
-    margin-top: 0.75rem;
-  }
-
   .md\:mt-5 {
     margin-top: 1.25rem;
   }
@@ -4294,16 +4276,8 @@ video {
     display: none;
   }
 
-  .md\:h-10 {
-    height: 2.5rem;
-  }
-
   .md\:max-h-screen {
     max-height: 100vh;
-  }
-
-  .md\:w-10 {
-    width: 2.5rem;
   }
 
   .md\:w-full {
@@ -4343,10 +4317,6 @@ video {
  
 @media (min-width: 1024px) {
 
-  .lg\:relative {
-    position: relative;
-  }
-
   .lg\:flex {
     display: flex;
   }
@@ -4363,24 +4333,12 @@ video {
     width: auto;
   }
 
-  .lg\:flex-row {
-    flex-direction: row;
-  }
-
   .lg\:flex-col {
     flex-direction: column;
   }
 
-  .lg\:flex-wrap {
-    flex-wrap: wrap;
-  }
-
   .lg\:items-center {
     align-items: center;
-  }
-
-  .lg\:justify-between {
-    justify-content: space-between;
   }
 
   .lg\:gap-x-14 {
