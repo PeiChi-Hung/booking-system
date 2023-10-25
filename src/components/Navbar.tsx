@@ -7,6 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "./ui/dropdown-menu"
+import Link from "next/link"
 
 export default function Navbar() {
   const [isOpen, setisOpen] = useState(false)
@@ -60,7 +61,9 @@ export default function Navbar() {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-52">
-          <DropdownMenuItem>Sign Out</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href="/">Sign Out</Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </nav>

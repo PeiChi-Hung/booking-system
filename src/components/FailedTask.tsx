@@ -117,7 +117,7 @@ export default function FailedTask() {
             <TableCell></TableCell>
             <TableCell className="text-right">
               <Button className="text-xs">Update</Button>
-              <Button className="mx-1 text-xs">Pause</Button>
+              <Button className="mx-1 text-xs">Resume</Button>
               <Button className="text-xs">Cancel</Button>
             </TableCell>
             <TableCell className="text-right"></TableCell>

@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import CancelledMobile from "@/components/mobile/CancelledMobile"
 import FailedTask from "@/components/FailedTask"
+import Navbar from "@/components/Navbar"
 
 // following numbers will be replaced by API
 const runningCount = 4
@@ -25,7 +26,8 @@ const failedCount = 1
 
 export default function Home() {
   return (
-    <main className="mt-3 px-1 md:mt-5 md:px-5">
+    <main>
+      <Navbar />
       <Tabs defaultValue="running">
         <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-6 md:grid-rows-none w-full gap-3 h-full">
           <TabsTrigger value="running" className="hover:bg-slate-200">
