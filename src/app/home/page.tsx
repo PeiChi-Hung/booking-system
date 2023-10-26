@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <main>
       <Navbar />
-      <Tabs defaultValue="running">
+      <Tabs defaultValue="running" className="mt-3">
         <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-6 md:grid-rows-none w-full gap-3 h-full">
           <TabsTrigger value="running" className="hover:bg-slate-200">
             Running

@@ -54,7 +54,7 @@ export default function Navbar() {
               <span className="items-center">abc@gmail.com</span>
               <span className="items-center text-xs">Agent Name</span>
             </div>
-            <Avatar className="top-0 right-0">
+            <Avatar className="top-0 right-0 h-7 w-7 md:w-10 md:h-10">
               <AvatarImage src="https://github.com/shadcn.png" className="" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
