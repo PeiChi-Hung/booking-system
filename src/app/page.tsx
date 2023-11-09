@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icon"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { SessionProvider } from "next-auth/react"
 
 export default function Signin() {
   return (
