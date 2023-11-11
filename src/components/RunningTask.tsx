@@ -7,6 +7,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "./ui/button"
+import Pause from "./Pause"
+import Cancel from "./Cancel"
 
 const orders = [
   {
@@ -114,10 +116,10 @@ export default function RunningTask() {
               ))}
             </TableCell>
             <TableCell></TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-right space-x-1">
               <Button>Update</Button>
-              <Button className="mx-1">Pause</Button>
-              <Button>Cancel</Button>
+              <Pause />
+              <Cancel />
             </TableCell>
           </TableRow>
         ))}

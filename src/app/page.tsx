@@ -1,4 +1,3 @@
-"use client"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import NewOrder from "@/components/NewOrder"
 import RunningTask from "@/components/RunningTask"
@@ -14,7 +13,6 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import CancelledMobile from "@/components/mobile/CancelledMobile"
 import FailedTask from "@/components/FailedTask"
-import Navbar from "@/components/Navbar"
 
 // following numbers will be replaced by API
 const runningCount = 4
@@ -27,7 +25,6 @@ const failedCount = 1
 export default function Home() {
   return (
     <main>
-      <Navbar />
       <Tabs defaultValue="running" className="mt-3">
         <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-6 md:grid-rows-none w-full gap-3 h-full">
           <TabsTrigger value="running" className="hover:bg-slate-200">

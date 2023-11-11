@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@radix-ui/react-popover"
-import { format, setHours } from "date-fns"
+import { format } from "date-fns"
 import { Calendar } from "./ui/calendar"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import {

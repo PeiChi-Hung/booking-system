@@ -14,6 +14,27 @@ export default function Navbar() {
 
   return (
     <nav className="relative flex flex-wrap justify-between items-center lg:h-16 z-10">
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <div className="flex flex-row items-center space-x-3">
+            <Avatar className="top-0 right-0 h-7 w-7 md:w-10 md:h-10">
+              <AvatarImage src="https://github.com/shadcn.png" className="" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="hidden lg:flex lg:flex-col">
+              <span className="items-center">abc@gmail.com</span>
+              <span className="items-center text-xs">Agent Name</span>
+            </div>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-52">
+          <DropdownMenuItem>
+            <Link href="/api/auth/signout" className="w-full">
+              Sign Out
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
       <div className="block lg:hidden">
         <button
           onClick={() => setisOpen(!isOpen)}
@@ -46,28 +67,6 @@ export default function Navbar() {
           <ul>Reports</ul>
         </div>
       </div>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <div className="flex flex-row items-center space-x-3">
-            <div className="hidden lg:flex lg:flex-col">
-              <span className="items-center">abc@gmail.com</span>
-              <span className="items-center text-xs">Agent Name</span>
-            </div>
-            <Avatar className="top-0 right-0 h-7 w-7 md:w-10 md:h-10">
-              <AvatarImage src="https://github.com/shadcn.png" className="" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-52">
-          <DropdownMenuItem>
-            <Link href="/api/auth/signout" className="w-full">
-              Sign Out
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </nav>
   )
 }
