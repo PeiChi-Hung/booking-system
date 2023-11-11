@@ -62,7 +62,7 @@ export default function Navbar() {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-52">
           <DropdownMenuItem>
-            <Link href="/" className="w-full">
+            <Link href="/api/auth/signout" className="w-full">
               Sign Out
             </Link>
           </DropdownMenuItem>
