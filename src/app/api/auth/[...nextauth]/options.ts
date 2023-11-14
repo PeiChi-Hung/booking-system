@@ -10,8 +10,10 @@ export const options: NextAuthOptions = {
       profile(profile: GoogleProfile) {
         console.log(profile)
         return {
-          ...profile,
           id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
           role: profile.role ?? "user",
         }
       },

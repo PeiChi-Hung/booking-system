@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import CancelledMobile from "@/components/mobile/CancelledMobile"
 import FailedTask from "@/components/FailedTask"
+import FailedMobile from "@/components/mobile/FailedMobile"
 
 // following numbers will be replaced by API
 const runningCount = 4
@@ -141,7 +142,12 @@ export default function Home() {
           <div className="my-5">
             <NewOrder />
           </div>
-          <FailedTask />
+          <div className="hidden md:block">
+            <FailedTask />
+          </div>
+          <div className="block md:hidden">
+            <FailedMobile />
+          </div>
         </TabsContent>
       </Tabs>
     </main>

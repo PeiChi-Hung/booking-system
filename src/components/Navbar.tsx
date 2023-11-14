@@ -8,24 +8,37 @@ import {
   DropdownMenuItem,
 } from "./ui/dropdown-menu"
 import Link from "next/link"
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
+import UserCard from "./UserCard"
 
 export default function Navbar() {
   const [isOpen, setisOpen] = useState(false)
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/api/auth/signin?callbackUrl=/home")
+    },
+  })
+  // console.log(session)
 
   return (
     <nav className="relative flex flex-wrap justify-between items-center lg:h-16 z-10">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <div className="flex flex-row items-center space-x-3">
+          {/* <div className="flex flex-row items-center space-x-3">
             <Avatar className="top-0 right-0 h-7 w-7 md:w-10 md:h-10">
               <AvatarImage src="https://github.com/shadcn.png" className="" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="hidden lg:flex lg:flex-col">
-              <span className="items-center">abc@gmail.com</span>
-              <span className="items-center text-xs">Agent Name</span>
+              <span className="items-center">{session?.user.name}</span>
+              <span className="items-center text-xs">
+                {session?.user.email}
+              </span>
             </div>
-          </div>
+          </div> */}
+          <UserCard user={session?.user} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-52">
           <DropdownMenuItem>
