@@ -10,7 +10,8 @@ export const options: NextAuthOptions = {
       profile(profile: GoogleProfile) {
         console.log(profile)
         return {
-          id: profile.sub,
+          ...profile,
+          id: profile.sub.toString(),
           name: profile.name,
           email: profile.email,
           image: profile.picture,
@@ -24,6 +25,7 @@ export const options: NextAuthOptions = {
       if (user) token.role = user.role
       return token
     },
+    // to use the role in client component
     async session({ session, token }) {
       if (session?.user) session.user.role = token.role
       return session

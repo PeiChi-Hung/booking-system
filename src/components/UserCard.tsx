@@ -1,4 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Avatar } from "./ui/avatar"
+// import type { User } from "next-auth"
 import Image from "next/image"
 
 type User =
