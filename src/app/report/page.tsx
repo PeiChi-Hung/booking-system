@@ -1,13 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PlacedBarChart } from "./PlacedBarChart"
 import { CompletedBarChart } from "./CompletedBarChart"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 
 export default function Report() {
   return (
@@ -22,24 +15,10 @@ export default function Report() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="placed">
-          <Card>
-            <CardHeader>
-              <CardTitle>Placed orders in the past 12 months</CardTitle>
-            </CardHeader>
-            <CardContent className="pl-2">
-              <PlacedBarChart />
-            </CardContent>
-          </Card>
+          <PlacedBarChart />
         </TabsContent>
         <TabsContent value="completed">
-          <Card>
-            <CardHeader>
-              <CardTitle>Completed orders in the past 12 months</CardTitle>
-            </CardHeader>
-            <CardContent className="pl-2">
-              <CompletedBarChart />
-            </CardContent>
-          </Card>
+          <CompletedBarChart />
         </TabsContent>
       </Tabs>
     </main>

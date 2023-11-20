@@ -1,5 +1,12 @@
 "use client"
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 const data = [
@@ -55,24 +62,29 @@ const data = [
 
 export function PlacedBarChart() {
   return (
-    <ResponsiveContainer aspect={2.6}>
-      <BarChart data={data}>
-        <XAxis
-          dataKey="name"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `$${value}`}
-        />
-        <Bar dataKey="total" fill="#82ca9d" radius={[4, 4, 0, 0]} />
-      </BarChart>
-    </ResponsiveContainer>
+    <Card>
+      <CardHeader>
+        <CardTitle>Placed orders in the past {data.length} months</CardTitle>
+      </CardHeader>
+      <ResponsiveContainer aspect={2.6}>
+        <BarChart data={data}>
+          <XAxis
+            dataKey="name"
+            stroke="#888888"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            stroke="#888888"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={(value) => `$${value}`}
+          />
+          <Bar dataKey="total" fill="#82ca9d" radius={[4, 4, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </Card>
   )
 }
