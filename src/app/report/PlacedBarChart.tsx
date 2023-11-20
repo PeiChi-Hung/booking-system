@@ -1,5 +1,6 @@
 "use client"
 
+import Options from "@/components/VisOptions"
 import {
   Card,
   CardContent,
@@ -66,25 +67,28 @@ export function PlacedBarChart() {
       <CardHeader>
         <CardTitle>Placed orders in the past {data.length} months</CardTitle>
       </CardHeader>
-      <ResponsiveContainer aspect={2.6}>
-        <BarChart data={data}>
-          <XAxis
-            dataKey="name"
-            stroke="#888888"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-          />
-          <YAxis
-            stroke="#888888"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => `$${value}`}
-          />
-          <Bar dataKey="total" fill="#82ca9d" radius={[4, 4, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+      <CardContent>
+        <Options />
+        <ResponsiveContainer aspect={2.6} className="mt-4">
+          <BarChart data={data}>
+            <XAxis
+              dataKey="name"
+              stroke="#888888"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              stroke="#888888"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => `$${value}`}
+            />
+            <Bar dataKey="total" fill="#82ca9d" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </CardContent>
     </Card>
   )
 }
