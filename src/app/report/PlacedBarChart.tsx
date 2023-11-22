@@ -87,8 +87,13 @@ export function PlacedBarChart() {
                 axisLine={false}
                 tickFormatter={(value) => `$${value}`}
               />
-              <Tooltip />
-              <Bar dataKey="total" fill="#82ca9d" radius={[4, 4, 0, 0]} />
+              {/* <Tooltip /> */}
+              <Bar
+                dataKey="total"
+                fill="#82ca9d"
+                radius={[4, 4, 0, 0]}
+                label={{ position: "top" }}
+              />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

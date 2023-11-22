@@ -3,6 +3,9 @@
 import {
   Bar,
   BarChart,
+  Label,
+  LabelList,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -101,9 +104,12 @@ export function CompletedBarChart() {
                 axisLine={false}
                 tickFormatter={(value) => `$${value}`}
               />
-              <Tooltip />
+              {/* <Tooltip /> */}
+              <Legend />
               <Bar dataKey="paid" fill="#8884d8" stackId="a" />
-              <Bar dataKey="unpaid" fill="#82ca9d" stackId="a" />
+              <Bar dataKey="unpaid" fill="#82ca9d" stackId="a">
+                <LabelList position="top" />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
