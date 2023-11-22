@@ -9,7 +9,7 @@ import {
   YAxis,
 } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Granularity from "@/components/VisOptions"
+import Options from "@/components/VisOptions"
 
 const data = [
   {
@@ -76,34 +76,38 @@ const data = [
 
 export function CompletedBarChart() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Completed orders in the past {data.length} months</CardTitle>
-      </CardHeader>
-      <CardContent className="pl-2">
-        <Granularity />
-        <ResponsiveContainer aspect={2.6}>
-          <BarChart data={data}>
-            <XAxis
-              dataKey="name"
-              stroke="#888888"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-            />
-            <YAxis
-              stroke="#888888"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `$${value}`}
-            />
-            <Tooltip />
-            <Bar dataKey="paid" fill="#8884d8" stackId="a" />
-            <Bar dataKey="unpaid" fill="#82ca9d" stackId="a" />
-          </BarChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+    <div>
+      <Options />
+      <Card className="mt-2">
+        <CardHeader>
+          <CardTitle>
+            Completed orders in the past {data.length} months
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pl-2">
+          <ResponsiveContainer aspect={2.6}>
+            <BarChart data={data}>
+              <XAxis
+                dataKey="name"
+                stroke="#888888"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="#888888"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => `$${value}`}
+              />
+              <Tooltip />
+              <Bar dataKey="paid" fill="#8884d8" stackId="a" />
+              <Bar dataKey="unpaid" fill="#82ca9d" stackId="a" />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
