@@ -6,9 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table"
-import { Button } from "./ui/button"
 import Resume from "./Resume"
 import Cancel from "./Cancel"
+import Update from "./Update"
 
 const orders = [
   {
@@ -115,8 +115,8 @@ export default function PauseTask() {
               ))}
             </TableCell>
             <TableCell></TableCell>
-            <TableCell className="text-right space-x-1">
-              <Button>Update</Button>
+            <TableCell className="text-right space-x-1 md:space-y-2">
+              <Update />
               <Resume />
               <Cancel />
             </TableCell>

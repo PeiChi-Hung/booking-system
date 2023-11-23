@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "./ui/button"
+import Update from "./Update"
 import Resume from "./Resume"
 import Cancel from "./Cancel"
 
@@ -117,8 +117,8 @@ export default function FailedTask() {
               ))}
             </TableCell>
             <TableCell></TableCell>
-            <TableCell className="text-right space-x-1">
-              <Button className="text-xs">Update</Button>
+            <TableCell className="text-right space-x-1 md:space-y-2">
+              <Update />
               <Resume />
               <Cancel />
             </TableCell>

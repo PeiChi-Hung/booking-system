@@ -57,8 +57,12 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 py-2 lg:text-lg lg:flex lg:items-center lg:gap-x-14 leading-relaxed">
-          <Link href="/">Orders</Link>
-          <Link href="/report">Reports</Link>
+          <Link href="/" className="flex">
+            Orders
+          </Link>
+          <Link href="/report" className="flex">
+            Reports
+          </Link>
         </div>
       </div>
     </nav>

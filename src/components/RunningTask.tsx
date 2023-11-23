@@ -9,6 +9,7 @@ import {
 import { Button } from "./ui/button"
 import Pause from "./Pause"
 import Cancel from "./Cancel"
+import Update from "./Update"
 
 const orders = [
   {
@@ -116,8 +117,8 @@ export default function RunningTask() {
               ))}
             </TableCell>
             <TableCell></TableCell>
-            <TableCell className="text-right space-x-1">
-              <Button>Update</Button>
+            <TableCell className="text-right space-x-1 md:space-y-2">
+              <Update />
               <Pause />
               <Cancel />
             </TableCell>
