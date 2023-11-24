@@ -29,6 +29,7 @@ import {
 } from "./ui/select"
 import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
+import { DialogClose } from "./ui/dialog"
 
 // mock data for location
 const locationOptions = [
@@ -79,11 +80,9 @@ type OrderFormValues = z.infer<typeof orderFromSchema>
 const OrderExpectation = ({
   nestedIndex,
   control,
-}: // register,
-{
+}: {
   nestedIndex: number
   control: Control<OrderFormValues>
-  // register: UseFormRegister<Location>
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -299,6 +298,7 @@ export default function OrderForm() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
+    onclose
   }
   // function onSubmit(data: OrderFormValues) {
   //   toast({
@@ -453,7 +453,9 @@ export default function OrderForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <DialogClose asChild>
+          <Button type="submit">Submit</Button>
+        </DialogClose>
       </form>
     </Form>
   )
