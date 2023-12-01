@@ -30,6 +30,7 @@ import {
 import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { DialogClose } from "./ui/dialog"
+import { useEffect } from "react"
 
 // mock data for location
 const locationOptions = [
@@ -196,8 +197,8 @@ const OrderExpectation = ({
                         type="time"
                         value={field.value}
                         onChange={field.onChange}
-                        min="08:00"
-                        max="17:00"
+                        min="08:00:00"
+                        max="17:00:00"
                         required
                       />
                     </FormControl>
@@ -267,15 +268,15 @@ export default function OrderForm() {
       customer_name: "",
       customer_id: "",
       // undefined may conflict with the default state of a controlled component.
+      // order_type: undefined,
       location: [
         {
-          locationValue: "",
           expectation: [
             {
               start_date: undefined,
               end_date: undefined,
-              start_time: "09:00 AM",
-              end_time: "05:00 PM",
+              start_time: "08:00:00",
+              end_time: "17:00:00",
             },
           ],
         },
@@ -298,7 +299,7 @@ export default function OrderForm() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
-    onclose
+    // form.reset()
   }
   // function onSubmit(data: OrderFormValues) {
   //   toast({
@@ -310,6 +311,11 @@ export default function OrderForm() {
   //     ),
   //   })
   // }
+  useEffect(() => {
+    if (form.formState.isSubmitSuccessful) {
+      form.reset()
+    }
+  }, [form.formState])
 
   return (
     <Form {...form}>
@@ -354,7 +360,7 @@ export default function OrderForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Order Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select an order type" />
@@ -385,16 +391,19 @@ export default function OrderForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Location</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue="">
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a location" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {locationOptions.map((type, index) => (
-                          <SelectItem key={index} value={type}>
-                            {type}
+                        {locationOptions.map((location, index) => (
+                          <SelectItem key={index} value={location}>
+                            {location}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -453,9 +462,9 @@ export default function OrderForm() {
             </FormItem>
           )}
         />
-        <DialogClose asChild>
-          <Button type="submit">Submit</Button>
-        </DialogClose>
+        {/* <DialogClose asChild> */}
+        <Button type="submit">Submit</Button>
+        {/* </DialogClose> */}
       </form>
     </Form>
   )
