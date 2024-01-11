@@ -12,14 +12,9 @@ export default function NewOrder() {
   const [open, setOpen] = useState(false)
 
   function onSubmit(values: z.infer<typeof orderFromSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // mutate(values)
+    // replace it with form submission API
     console.log(values)
     setOpen(false)
-    // setTimeout(() => {
-    //   window.location.reload()
-    // }, 1000)
   }
 
   return (

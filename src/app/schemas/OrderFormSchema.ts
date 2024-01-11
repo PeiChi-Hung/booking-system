@@ -2,9 +2,9 @@ import { z } from "zod"
 
 // zod schema
 // set restriction for each input
-export const orderFromSchema = z.object({
-  customer_name: z.string().max(100),
+export const orderFormSchema = z.object({
   customer_id: z.string().regex(new RegExp("^[0-9]+$")).max(10),
+  customer_name: z.string().max(100),
   order_type: z.string(),
   location: z.array(
     z.object({

@@ -16,7 +16,6 @@ import FailedTask from "@/components/FailedTask"
 import FailedMobile from "@/components/mobile/FailedMobile"
 import { getServerSession } from "next-auth"
 import { options } from "./api/auth/[...nextauth]/options"
-import { redirect } from "next/navigation"
 
 // following numbers will be replaced by API
 const runningCount = 4

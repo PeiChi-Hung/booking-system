@@ -6,10 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "./ui/button"
 import Pause from "./Pause"
 import Cancel from "./Cancel"
 import Update from "./Update"
+import { QueryClient, useQuery } from "@tanstack/react-query"
+import { z } from "zod"
+import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
 
 const orders = [
   {
@@ -63,10 +65,17 @@ const orders = [
   },
 ]
 
+// type OrderFormValues = z.infer<typeof orderFromSchema>
+
+// const { data } = useQuery<{ orders: OrderFormValues[] }>({
+//     queryKey: ["orders"],
+//     queryFn: () => fetch(`/api/order`).then((res) => res.json()),
+//   })
+
 export default function RunningTask() {
   return (
     <Table>
-      {/* <TableCaption>A list of your running orders.</TableCaption> */}
+      {/* <TableCaption>A list of your running orders.</TableCaption>  */}
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Order Date</TableHead>

@@ -1,34 +1,45 @@
+"use client"
 import { Button } from "./ui/button"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "./ui/alert-dialog"
 
+import OrderForm from "./OrderForm"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog"
+import { useState } from "react"
+import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
+import { z } from "zod"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
 export default function Update() {
+  const [open, setOpen] = useState(false)
+
+  function onUpdate(values: z.infer<typeof orderFormSchema>) {
+    // replace it with form update API
+    console.log(values)
+    setOpen(false)
+  }
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
         <Button>Update</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you absolutely sure you would like to update the order?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogTrigger>
+      <DialogContent
+        className="md:max-w-screen-md overflow-y-scroll md:max-h-screen h-4/5"
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
+        <DialogHeader>
+          <DialogTitle>Update Form</DialogTitle>
+        </DialogHeader>
+        <QueryClientProvider client={queryClient}>
+          <OrderForm onSubmit={onUpdate} />
+        </QueryClientProvider>
+      </DialogContent>
+    </Dialog>
   )
 }

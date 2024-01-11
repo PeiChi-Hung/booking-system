@@ -29,16 +29,11 @@ import {
 } from "./ui/select"
 import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog"
+import { Dialog, DialogClose, DialogFooter } from "./ui/dialog"
 
-import { orderFromSchema } from "@/app/schemas/OrderFormSchema"
+import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+
 // mock data for location
 const locationOptions = [
   "CBD",
@@ -52,8 +47,9 @@ const locationOptions = [
 const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
 
 // covert zod schema into typescript types
-type OrderFormValues = z.infer<typeof orderFromSchema>
+type OrderFormValues = z.infer<typeof orderFormSchema>
 
+// controlling field array for expectations
 const OrderExpectation = ({
   nestedIndex,
   control,
@@ -242,9 +238,21 @@ interface FormProps {
   onSubmit: (values: OrderFormValues) => void
 }
 
+// const formSchema = z.object({
+//   orders: z.array(orderFormSchema),
+// })
+
 export default function OrderForm({ onSubmit }: FormProps) {
+  // const queryClient = useQueryClient()
+
+  const { data } = useQuery<{ orders: OrderFormValues }>({
+    queryKey: ["orders"],
+    queryFn: () => fetch(`/api/order`).then((res) => res.json()),
+  })
+  console.log(data)
+
   const form = useForm<OrderFormValues>({
-    resolver: zodResolver(orderFromSchema),
+    resolver: zodResolver(orderFormSchema),
     defaultValues: {
       customer_name: "",
       customer_id: "",
@@ -263,6 +271,7 @@ export default function OrderForm({ onSubmit }: FormProps) {
         },
       ],
     },
+    values: data?.orders,
     mode: "onChange",
   })
 
@@ -274,11 +283,6 @@ export default function OrderForm({ onSubmit }: FormProps) {
     name: "location",
     control: form.control,
   })
-
-  // submit function
-  // function onSubmit(values: OrderFormValues) {
-  //   console.log(values)
-  // }
 
   return (
     <Form {...form}>
