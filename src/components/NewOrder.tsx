@@ -5,13 +5,16 @@ import { Button } from "./ui/button"
 import OrderForm from "./OrderForm"
 import { useState } from "react"
 import * as z from "zod"
-import { orderFromSchema } from "@/app/schemas/OrderFormSchema"
+import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
 
 export default function NewOrder() {
   // make Dialog a controlled element
   const [open, setOpen] = useState(false)
 
-  function onSubmit(values: z.infer<typeof orderFromSchema>) {
+  function onSubmit(values: z.infer<typeof orderFormSchema>) {
     // replace it with form submission API
     console.log(values)
     setOpen(false)
@@ -29,7 +32,9 @@ export default function NewOrder() {
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogTitle>Make a new order</DialogTitle>
-        <OrderForm onSubmit={onSubmit} />
+        <QueryClientProvider client={queryClient}>
+          <OrderForm onSubmit={onSubmit} />
+        </QueryClientProvider>
       </DialogContent>
     </Dialog>
   )

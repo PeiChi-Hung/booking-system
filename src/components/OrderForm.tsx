@@ -245,19 +245,26 @@ interface FormProps {
 export default function OrderForm({ onSubmit }: FormProps) {
   // const queryClient = useQueryClient()
 
+  // useEffect(() => console.log("testing"), [])
+
   const { data } = useQuery<{ orders: OrderFormValues }>({
     queryKey: ["orders"],
-    queryFn: () => fetch(`/api/order`).then((res) => res.json()),
+    queryFn: () =>
+      fetch(`/api/order`).then((res) => {
+        // console.log("test")
+        return res.json()
+      }),
   })
   console.log(data)
 
+  const values = data?.orders
+
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFormSchema),
+    // defaultValues being undefined may conflict with the default state of a controlled component.
     defaultValues: {
       customer_name: "",
       customer_id: "",
-      // undefined may conflict with the default state of a controlled component.
-      // order_type: undefined,
       location: [
         {
           expectation: [
@@ -270,9 +277,10 @@ export default function OrderForm({ onSubmit }: FormProps) {
           ],
         },
       ],
+      comment: "",
     },
-    values: data?.orders,
-    mode: "onChange",
+    values,
+    // mode: "onChange",
   })
 
   const {
@@ -328,9 +336,12 @@ export default function OrderForm({ onSubmit }: FormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Order Type</FormLabel>
-                <Select onValueChange={field.onChange}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger>
                       <SelectValue placeholder="Select an order type" />
                     </SelectTrigger>
                   </FormControl>
@@ -342,6 +353,10 @@ export default function OrderForm({ onSubmit }: FormProps) {
                     ))}
                   </SelectContent>
                 </Select>
+                {/* <FormControl>
+                  <Input {...field} />
+                </FormControl> */}
+                <FormMessage />
                 <FormMessage />
               </FormItem>
             )}
