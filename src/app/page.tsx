@@ -16,7 +16,6 @@ import FailedTask from "@/components/FailedTask"
 import FailedMobile from "@/components/mobile/FailedMobile"
 import { getServerSession } from "next-auth"
 import { options } from "./api/auth/[...nextauth]/options"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 // following numbers will be replaced by API
 const runningCount = 4
@@ -25,13 +24,11 @@ const unpaidCount = 4
 const paidCount = 4
 const cancelledCount = 4
 const failedCount = 1
-// const queryClient = new QueryClient()
 
 export default async function Home() {
   const session = await getServerSession(options)
 
   return (
-    // <QueryClientProvider client={queryClient}>
     <main>
       <Tabs defaultValue="running" className="mt-3">
         <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-6 md:grid-rows-none w-full gap-3 h-full">
@@ -158,6 +155,5 @@ export default async function Home() {
         </TabsContent>
       </Tabs>
     </main>
-    // </QueryClientProvider>
   )
 }

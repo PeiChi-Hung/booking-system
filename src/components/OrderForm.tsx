@@ -32,7 +32,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogClose, DialogFooter } from "./ui/dialog"
 
 import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 // mock data for location
 const locationOptions = [
@@ -243,8 +243,6 @@ interface FormProps {
 // })
 
 export default function OrderForm({ onSubmit }: FormProps) {
-  // const queryClient = useQueryClient()
-
   // useEffect(() => console.log("testing"), [])
 
   const { data } = useQuery<{ orders: OrderFormValues }>({
@@ -255,7 +253,7 @@ export default function OrderForm({ onSubmit }: FormProps) {
         return res.json()
       }),
   })
-  console.log(data)
+  // console.log(data)
 
   const values = data?.orders
 
@@ -356,7 +354,6 @@ export default function OrderForm({ onSubmit }: FormProps) {
                 {/* <FormControl>
                   <Input {...field} />
                 </FormControl> */}
-                <FormMessage />
                 <FormMessage />
               </FormItem>
             )}

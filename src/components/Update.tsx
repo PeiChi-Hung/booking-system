@@ -12,9 +12,7 @@ import {
 import { useState } from "react"
 import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
 import { z } from "zod"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-const queryClient = new QueryClient()
 export default function Update() {
   const [open, setOpen] = useState(false)
 
@@ -36,9 +34,7 @@ export default function Update() {
         <DialogHeader>
           <DialogTitle>Update Form</DialogTitle>
         </DialogHeader>
-        <QueryClientProvider client={queryClient}>
-          <OrderForm onSubmit={onUpdate} />
-        </QueryClientProvider>
+        <OrderForm onSubmit={onUpdate} />
       </DialogContent>
     </Dialog>
   )

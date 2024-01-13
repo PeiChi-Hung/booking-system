@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 
 const orders = {
+  order_id: "001",
   order_date: "2023/04/01",
   customer_id: "0000000123",
   customer_name: "Testing-Update",
@@ -11,7 +12,7 @@ const orders = {
       expectation: [
         {
           start_time: "10:00:00",
-          start_date: new Date("January 13th, 2024"),
+          start_date: new Date("January 15th, 2024"),
           end_time: "15:00:00",
           end_date: new Date("January 15th, 2024"),
         },
