@@ -85,7 +85,7 @@ const OrderExpectation = ({
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(new Date(field.value), "PPP")
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -129,7 +129,7 @@ const OrderExpectation = ({
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(new Date(field.value), "PPP")
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -253,7 +253,6 @@ export default function OrderForm({ onSubmit }: FormProps) {
         return res.json()
       }),
   })
-  // console.log(data)
 
   const values = data?.orders
 
