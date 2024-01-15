@@ -14,11 +14,11 @@ export default function NewOrder() {
   // make Dialog a controlled element
   const [open, setOpen] = useState(false)
 
-  function onSubmit(values: z.infer<typeof orderFormSchema>) {
-    // replace it with form submission API
-    console.log(values)
-    setOpen(false)
-  }
+  // function onSubmit(values: z.infer<typeof orderFormSchema>) {
+  //   // replace it with form submission API
+  //   console.log(values)
+  //   setOpen(false)
+  // }
 
   return (
     // TODO: wrap dialog with form
@@ -33,7 +33,7 @@ export default function NewOrder() {
       >
         <DialogTitle>Make a new order</DialogTitle>
         <QueryClientProvider client={queryClient}>
-          <OrderForm onSubmit={onSubmit} />
+          <OrderForm />
         </QueryClientProvider>
       </DialogContent>
     </Dialog>

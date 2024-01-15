@@ -233,28 +233,15 @@ const OrderExpectation = ({
   )
 }
 
-// pass onSubmit as a props
-interface FormProps {
-  onSubmit: (values: OrderFormValues) => void
+function onSubmit(values: z.infer<typeof orderFormSchema>) {
+  // replace it with form submission API
+  console.log(values)
+  // setOpen(false)
 }
 
-// const formSchema = z.object({
-//   orders: z.array(orderFormSchema),
-// })
-
-export default function OrderForm({ onSubmit }: FormProps) {
-  // useEffect(() => console.log("testing"), [])
-
-  const { data } = useQuery<{ orders: OrderFormValues }>({
-    queryKey: ["orders"],
-    queryFn: () =>
-      fetch(`/api/order`).then((res) => {
-        // console.log("test")
-        return res.json()
-      }),
-  })
-
-  const values = data?.orders
+export default function OrderForm({ data }: { data?: OrderFormValues }) {
+  console.log("data passed to orderForm", data)
+  const values = data
 
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFormSchema),

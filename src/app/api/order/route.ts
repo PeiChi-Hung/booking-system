@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server"
-import moment from "moment"
-import { format } from "date-fns"
 
 let orders = {
   order_id: "001",
   order_date: "2023/04/01",
   customer_id: "0000000123",
   customer_name: "Testing-Update",
-  order_type: "Type",
+  order_type: "Type 1",
   location: [
     {
       locationValue: "CBD",
@@ -26,11 +24,5 @@ let orders = {
 }
 
 export async function GET() {
-  // orders.location[0].expectation[0].start_date = new Date(
-  //   orders.location[0].expectation[0].start_date
-  // )
-
-  // console.log(typeof orders.location[0].expectation[0].start_date)
-  // console.log(orders.location[0].expectation[0].start_date)
   return NextResponse.json({ orders })
 }

@@ -12,15 +12,19 @@ import {
 import { useState } from "react"
 import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
 import { z } from "zod"
+import { useQuery } from "@tanstack/react-query"
 
 export default function Update() {
   const [open, setOpen] = useState(false)
 
-  function onUpdate(values: z.infer<typeof orderFormSchema>) {
-    // replace it with form update API
-    console.log(values)
-    setOpen(false)
-  }
+  const { data } = useQuery({
+    queryKey: ["orders"],
+    queryFn: () =>
+      fetch(`/api/order`).then((res) => {
+        // console.log("test")
+        return res.json()
+      }),
+  })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -34,7 +38,7 @@ export default function Update() {
         <DialogHeader>
           <DialogTitle>Update Form</DialogTitle>
         </DialogHeader>
-        <OrderForm onSubmit={onUpdate} />
+        <OrderForm data={data?.orders} />
       </DialogContent>
     </Dialog>
   )
