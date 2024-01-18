@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog"
 import { useQuery } from "@tanstack/react-query"
-import { covertInputData } from "@/app/schemas/InputDataSchema"
+import { convertInputData } from "@/app/schemas/InputDataSchema"
 import axios from "axios"
 
 export default function Update() {
@@ -22,7 +22,9 @@ export default function Update() {
     },
   })
 
-  data.orders = covertInputData(data?.orders)
+  if (data !== undefined) {
+    data.orders = convertInputData(data?.orders)
+  }
 
   return (
     <Dialog>

@@ -1,7 +1,7 @@
 import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
 import * as z from "zod"
 
-type inputData = {
+type fetchData = {
   customer_id: string
   customer_name: string
   order_type: string
@@ -19,7 +19,7 @@ type inputData = {
 
 type OrderFormValues = z.infer<typeof orderFormSchema>
 
-export const covertInputData = (inputData: inputData): OrderFormValues => {
+export const convertInputData = (inputData: fetchData): OrderFormValues => {
   const order = {
     customer_id: inputData.customer_id,
     customer_name: inputData.customer_name,
