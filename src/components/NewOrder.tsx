@@ -11,18 +11,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 const queryClient = new QueryClient()
 
 export default function NewOrder() {
-  // make Dialog a controlled element
-  const [open, setOpen] = useState(false)
-
-  // function onSubmit(values: z.infer<typeof orderFormSchema>) {
-  //   // replace it with form submission API
-  //   console.log(values)
-  //   setOpen(false)
-  // }
-
   return (
-    // TODO: wrap dialog with form
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button>New Order</Button>
       </DialogTrigger>

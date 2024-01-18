@@ -9,25 +9,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog"
-import { useState } from "react"
-import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
-import { z } from "zod"
 import { useQuery } from "@tanstack/react-query"
+import { covertInputData } from "@/app/schemas/InputDataSchema"
+import axios from "axios"
 
 export default function Update() {
-  const [open, setOpen] = useState(false)
-
   const { data } = useQuery({
     queryKey: ["orders"],
-    queryFn: () =>
-      fetch(`/api/order`).then((res) => {
-        // console.log("test")
-        return res.json()
-      }),
+    queryFn: async () => {
+      const { data } = await axios.get("api/order")
+      return data
+    },
   })
 
+  data.orders = covertInputData(data?.orders)
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button>Update</Button>
       </DialogTrigger>

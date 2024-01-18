@@ -240,9 +240,18 @@ function onSubmit(values: z.infer<typeof orderFormSchema>) {
 }
 
 export default function OrderForm({ data }: { data?: OrderFormValues }) {
-  console.log("data passed to orderForm", data)
-  const values = data
+  // console.log(
+  //   "date value type in OrderForm is",
+  //   typeof data?.location[0].expectation[0].start_date
+  // )
 
+  const values = data
+  // values.location[0].expectation[0].start_date = new Date(
+  //   values.location[0].expectation[0].start_date
+  // )
+  // values.location[0].expectation[0].end_date = new Date(
+  //   values.location[0].expectation[0].end_date
+  // )
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFormSchema),
     // defaultValues being undefined may conflict with the default state of a controlled component.
@@ -264,7 +273,6 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
       comment: "",
     },
     values,
-    // mode: "onChange",
   })
 
   const {
