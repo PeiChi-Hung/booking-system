@@ -10,21 +10,21 @@ import {
   DialogTrigger,
 } from "./ui/dialog"
 import { useQuery } from "@tanstack/react-query"
-import { convertInputData } from "@/app/schemas/InputDataSchema"
+import { transformOrderType } from "@/app/schemas/InputDataSchema"
 import axios from "axios"
 
+// const useSomeFunc = <T = SomeDataType>(select?: (data: SomeDataType) => T) =>
+//   useQuery(['someQuery', fetcher, { select })
+
 export default function Update() {
-  const { data } = useQuery({
+  const useOrder = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
-      const { data } = await axios.get("api/order")
-      return data
+      const response = await axios.get("api/order")
+      return response.data
     },
+    enabled: false,
   })
-
-  if (data !== undefined) {
-    data.orders = convertInputData(data?.orders)
-  }
 
   return (
     <Dialog>
@@ -38,7 +38,7 @@ export default function Update() {
         <DialogHeader>
           <DialogTitle>Update Form</DialogTitle>
         </DialogHeader>
-        <OrderForm data={data?.orders} />
+        <OrderForm data={useOrder.data?.orders} />
       </DialogContent>
     </Dialog>
   )
