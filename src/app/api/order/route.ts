@@ -22,7 +22,6 @@ let orders = {
   comment: "Comment for testing",
   status: "running",
 }
-
 export async function GET() {
   return NextResponse.json({ orders })
 }

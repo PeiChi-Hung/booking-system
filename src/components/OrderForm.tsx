@@ -31,7 +31,7 @@ import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogClose, DialogFooter } from "./ui/dialog"
 
-import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
+import { orderFormSchema, OrderFormValues } from "@/app/common/OrderFormSchema"
 import { useQuery } from "@tanstack/react-query"
 
 // mock data for location
@@ -45,9 +45,6 @@ const locationOptions = [
 
 // mock data for order
 const orderType = ["Type 1", "Type 2", "Type 3", "Type 4", "Type 5"]
-
-// covert zod schema into typescript types
-type OrderFormValues = z.infer<typeof orderFormSchema>
 
 // controlling field array for expectations
 const OrderExpectation = ({

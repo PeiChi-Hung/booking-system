@@ -5,7 +5,7 @@ import { Button } from "./ui/button"
 import OrderForm from "./OrderForm"
 import { useState } from "react"
 import * as z from "zod"
-import { orderFormSchema } from "@/app/schemas/OrderFormSchema"
+import { orderFormSchema } from "@/app/common/OrderFormSchema"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 const queryClient = new QueryClient()
