@@ -29,7 +29,7 @@ export default function Update() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Update</Button>
+        <Button onClick={() => useOrder.refetch()}>Update</Button>
       </DialogTrigger>
       <DialogContent
         className="md:max-w-screen-md overflow-y-scroll md:max-h-screen h-4/5"
