@@ -18,6 +18,17 @@ let orders = {
         },
       ],
     },
+    {
+      locationValue: "Caufield",
+      expectation: [
+        {
+          start_time: "10:00:00",
+          start_date: "2024-01-20",
+          end_time: "15:00:00",
+          end_date: "2024-01-25",
+        },
+      ],
+    },
   ],
   comment: "Comment for testing",
   status: "running",
