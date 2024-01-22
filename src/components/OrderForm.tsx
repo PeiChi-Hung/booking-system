@@ -29,10 +29,7 @@ import {
 } from "./ui/select"
 import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogClose, DialogFooter } from "./ui/dialog"
-
 import { orderFormSchema, OrderFormValues } from "@/app/common/OrderFormSchema"
-import { useQuery } from "@tanstack/react-query"
 
 // mock data for location
 const locationOptions = [
@@ -237,18 +234,7 @@ function onSubmit(values: z.infer<typeof orderFormSchema>) {
 }
 
 export default function OrderForm({ data }: { data?: OrderFormValues }) {
-  // console.log(
-  //   "date value type in OrderForm is",
-  //   typeof data?.location[0].expectation[0].start_date
-  // )
-
   const values = data
-  // values.location[0].expectation[0].start_date = new Date(
-  //   values.location[0].expectation[0].start_date
-  // )
-  // values.location[0].expectation[0].end_date = new Date(
-  //   values.location[0].expectation[0].end_date
-  // )
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFormSchema),
     // defaultValues being undefined may conflict with the default state of a controlled component.
@@ -257,6 +243,7 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
       customer_id: "",
       location: [
         {
+          locationValue: "",
           expectation: [
             {
               start_date: undefined,
@@ -277,169 +264,166 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
     append: locationAppend,
     remove: locationRemove,
   } = useFieldArray({
-    name: "location",
     control: form.control,
+    name: "location",
   })
 
   return (
     <Form {...form}>
-      <Dialog>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Customer ID */}
-          <FormField
-            control={form.control}
-            name="customer_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Customer ID</FormLabel>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {/* Customer ID */}
+        <FormField
+          control={form.control}
+          name="customer_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Customer ID</FormLabel>
+              <FormControl>
+                {/* TODO: fix padding 0s */}
+                <Input
+                  {...field}
+                  onBlur={(e) =>
+                    (e.target.value = e.target.value.padStart(10, "0"))
+                  }
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Customer Name */}
+        <FormField
+          control={form.control}
+          name="customer_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Customer Name</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Order Type */}
+        <FormField
+          control={form.control}
+          name="order_type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Order Type</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
+              >
                 <FormControl>
-                  <Input
-                    {...field}
-                    onBlur={(e) =>
-                      (e.target.value = e.target.value.padStart(10, "0"))
-                    }
-                  />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an order type" />
+                  </SelectTrigger>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Customer Name */}
-          <FormField
-            control={form.control}
-            name="customer_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Customer Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Order Type */}
-          <FormField
-            control={form.control}
-            name="order_type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Order Type</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an order type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {orderType.map((type, index) => (
-                      <SelectItem key={index} value={type}>
-                        {type}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {/* <FormControl>
+                <SelectContent>
+                  {orderType.map((type, index) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {/* <FormControl>
                   <Input {...field} />
                 </FormControl> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Separator />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
 
-          {/* Location */}
-          <div className="space-y-4">
-            {locationFields.map((locationfield, index, array) => (
-              <div key={locationfield.id} className="space-y-4">
-                <p>Location {index + 1}</p>
-                <FormField
-                  control={form.control}
-                  name={`location.${index}.locationValue`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Location</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select a location" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {locationOptions.map((location, index) => (
-                            <SelectItem key={index} value={location}>
-                              {location}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* Expectation */}
-                <OrderExpectation nestedIndex={index} control={form.control} />
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  className={array.length == 1 ? "hidden" : "block mt-2 w-full"}
-                  onClick={() => locationRemove(index)}
-                >
-                  Remove Location
-                </Button>
-                <Separator />
-              </div>
-            ))}
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="mt-2"
-              onClick={() =>
-                locationAppend({
-                  locationValue: "",
-                  expectation: [
-                    {
-                      start_date: "" as unknown as Date,
-                      end_date: "" as unknown as Date,
-                      start_time: "",
-                      end_time: "",
-                    },
-                  ],
-                })
-              }
-            >
-              Add location
-            </Button>
-          </div>
-          <Separator />
-          <FormField
-            control={form.control}
-            name="comment"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Comment</FormLabel>
-                <FormControl>
-                  <Textarea className="resize-none" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="submit">Submit</Button>
-            </DialogClose>
-          </DialogFooter>
-        </form>
-      </Dialog>
+        {/* Location */}
+        <div className="space-y-4">
+          {locationFields.map((locationfield, index, array) => (
+            <div key={locationfield.id} className="space-y-4">
+              <p>Location {index + 1}</p>
+              <FormField
+                control={form.control}
+                name={`location.${index}.locationValue`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a location" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {locationOptions.map((location, index) => (
+                          <SelectItem key={index} value={location}>
+                            {location}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Expectation */}
+              <OrderExpectation nestedIndex={index} control={form.control} />
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                className={array.length == 1 ? "hidden" : "block mt-2 w-full"}
+                onClick={() => locationRemove(index)}
+              >
+                Remove Location
+              </Button>
+              <Separator />
+            </div>
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() =>
+              locationAppend({
+                locationValue: "",
+                expectation: [
+                  {
+                    start_date: "" as unknown as Date,
+                    end_date: "" as unknown as Date,
+                    start_time: "",
+                    end_time: "",
+                  },
+                ],
+              })
+            }
+          >
+            Add location
+          </Button>
+        </div>
+        <Separator />
+        <FormField
+          control={form.control}
+          name="comment"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comment</FormLabel>
+              <FormControl>
+                <Textarea className="resize-none" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
     </Form>
   )
 }
