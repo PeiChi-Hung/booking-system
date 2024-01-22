@@ -62,13 +62,6 @@ const orders = [
   },
 ]
 
-// type OrderFormValues = z.infer<typeof orderFromSchema>
-
-// const { data } = useQuery<{ orders: OrderFormValues[] }>({
-//     queryKey: ["orders"],
-//     queryFn: () => fetch(`/api/order`).then((res) => res.json()),
-//   })
-
 export default function RunningTask() {
   return (
     <Table>
@@ -86,7 +79,6 @@ export default function RunningTask() {
           <TableHead className="text-right">Start Time</TableHead>
           <TableHead className="text-right">End Time</TableHead>
           <TableHead className="text-right">Comment</TableHead>
-          {/* TODO: buttons */}
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
@@ -124,7 +116,7 @@ export default function RunningTask() {
             </TableCell>
             <TableCell></TableCell>
             <TableCell className="text-right space-x-1 md:space-y-2">
-              <Update />
+              <Update order_id={order.order_id} />
               <Pause />
               <Cancel />
             </TableCell>

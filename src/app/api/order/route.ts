@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 
 let orders = {
-  order_id: "001",
+  order_id: "ORD001",
   order_date: "2023/04/01",
   customer_id: "0000000123",
   customer_name: "Testing-Update",

@@ -116,7 +116,7 @@ export default function PauseTask() {
             </TableCell>
             <TableCell></TableCell>
             <TableCell className="text-right space-x-1 md:space-y-2">
-              <Update />
+              <Update order_id={order.order_id} />
               <Resume />
               <Cancel />
             </TableCell>

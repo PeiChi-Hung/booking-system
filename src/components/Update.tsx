@@ -11,7 +11,6 @@ import {
 import { useQuery } from "@tanstack/react-query"
 import { transformOrderType } from "@/app/common/InputDataSchema"
 import axios from "axios"
-import { TramFront } from "lucide-react"
 
 interface fetchData {
   customer_id: string
@@ -29,15 +28,15 @@ interface fetchData {
   comment: string
 }
 
-export default function Update() {
+export default function Update(order_id: { order_id: string }) {
   const useOrder = useQuery({
-    queryKey: ["orders"],
+    queryKey: ["orders", order_id],
     queryFn: async () => {
       const response = await axios.get("api/order")
       return response.data
     },
-    // disable auto fetching
-    enabled: false,
+    // disable as long as order_id is empty
+    enabled: !!order_id,
     // data transformation
     select: (data) => transformOrderType(data.orders),
   })

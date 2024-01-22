@@ -31,7 +31,7 @@ export default async function Home() {
   return (
     <main>
       <Tabs defaultValue="running" className="mt-3">
-        <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-6 md:grid-rows-none w-full gap-3 h-full">
+        <TabsList className="grid grid-cols-3 grid-rows-2 md:grid-cols-5 md:grid-rows-none w-full gap-3 h-full">
           <TabsTrigger value="running" className="hover:bg-slate-200">
             Running
             <Badge
@@ -74,12 +74,12 @@ export default async function Home() {
               {unpaidCount}
             </Badge>
           </TabsTrigger>
-          <TabsTrigger value="paid" className="hover:bg-slate-200">
+          {/* <TabsTrigger value="paid" className="hover:bg-slate-200">
             Paid
             <Badge className={cn("ml-1 md:ml-2 bg-gray-400 hover:bg-gray-400")}>
               {paidCount}
             </Badge>
-          </TabsTrigger>
+          </TabsTrigger> */}
           <TabsTrigger value="cancelled" className="hover:bg-slate-200">
             Cancelled
             <Badge className={cn("ml-1 md:ml-2 bg-gray-400 hover:bg-gray-400")}>
@@ -120,7 +120,7 @@ export default async function Home() {
             <UnpaidMobile />
           </div>
         </TabsContent>
-        <TabsContent value="paid">
+        {/* <TabsContent value="paid">
           <div className="my-5">
             <NewOrder />
           </div>
@@ -130,7 +130,7 @@ export default async function Home() {
           <div className="block md:hidden">
             <PaidMobile />
           </div>
-        </TabsContent>
+        </TabsContent> */}
         <TabsContent value="cancelled">
           <div className="my-5">
             <NewOrder />
