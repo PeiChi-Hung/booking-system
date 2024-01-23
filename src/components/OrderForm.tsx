@@ -30,6 +30,7 @@ import {
 import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { orderFormSchema, OrderFormValues } from "@/app/common/OrderFormSchema"
+import { dataFromBackend } from "@/app/common/InputDataSchema"
 
 // mock data for location
 const locationOptions = [
@@ -234,7 +235,9 @@ function onSubmit(values: z.infer<typeof orderFormSchema>) {
 }
 
 export default function OrderForm({ data }: { data?: OrderFormValues }) {
-  const values = data
+  const order = data
+  const isNewOrderMode = !order
+
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFormSchema),
     // defaultValues being undefined may conflict with the default state of a controlled component.
@@ -256,7 +259,7 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
       ],
       comment: "",
     },
-    values,
+    values: order,
   })
 
   const {
@@ -282,8 +285,11 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
                 {/* TODO: fix padding 0s */}
                 <Input
                   {...field}
+                  // onBlur={(e) =>
+                  //   (e.target.value = e.target.value.padStart(10, "0"))
+                  // }
                   onBlur={(e) =>
-                    (e.target.value = e.target.value.padStart(10, "0"))
+                    field.onChange(e.target.value.padStart(10, "0"))
                   }
                 />
               </FormControl>
@@ -422,7 +428,11 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        {isNewOrderMode ? (
+          <Button type="submit">Submit</Button>
+        ) : (
+          <Button type="submit">Update</Button>
+        )}
       </form>
     </Form>
   )
