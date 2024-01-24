@@ -1,4 +1,4 @@
-interface fetchData {
+export interface dataFromBackend {
   customer_id: string
   customer_name: string
   order_type: string
@@ -14,7 +14,7 @@ interface fetchData {
   comment: string
 }
 
-export const transformOrderType = (inputData: fetchData) => {
+export const transformOrderType = (inputData: dataFromBackend) => {
   const order = {
     customer_id: inputData.customer_id,
     customer_name: inputData.customer_name,

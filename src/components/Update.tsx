@@ -12,22 +12,6 @@ import { useQuery } from "@tanstack/react-query"
 import { transformOrderType } from "@/app/common/InputDataSchema"
 import axios from "axios"
 
-interface fetchData {
-  customer_id: string
-  customer_name: string
-  order_type: string
-  location: {
-    locationValue: string
-    expectation: {
-      start_time: string
-      start_date: string
-      end_time: string
-      end_date: string
-    }[]
-  }[]
-  comment: string
-}
-
 export default function Update(order_id: { order_id: string }) {
   const useOrder = useQuery({
     queryKey: ["orders", order_id],

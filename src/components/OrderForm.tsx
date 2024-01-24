@@ -31,6 +31,7 @@ import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { orderFormSchema, OrderFormValues } from "@/app/common/OrderFormSchema"
 import { dataFromBackend } from "@/app/common/InputDataSchema"
+import { useEffect } from "react"
 
 // mock data for location
 const locationOptions = [
@@ -259,7 +260,6 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
       ],
       comment: "",
     },
-    values: order,
   })
 
   const {
@@ -270,6 +270,11 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
     control: form.control,
     name: "location",
   })
+
+  // populate form value with input data
+  useEffect(() => {
+    form.reset(order)
+  }, [order])
 
   return (
     <Form {...form}>
