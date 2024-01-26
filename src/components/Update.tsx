@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query"
 import { transformOrderType } from "@/app/common/InputDataSchema"
 import axios from "axios"
 
-export default function Update(order_id: { order_id: string }) {
+export default function Update({ order_id }: { order_id: string }) {
   const useOrder = useQuery({
     queryKey: ["orders", order_id],
     queryFn: async () => {
@@ -38,7 +38,7 @@ export default function Update(order_id: { order_id: string }) {
         <DialogHeader>
           <DialogTitle>Update Form</DialogTitle>
         </DialogHeader>
-        <OrderForm data={useOrder.data} />
+        <OrderForm id={order_id} data={useOrder.data?.order} />
       </DialogContent>
     </Dialog>
   )

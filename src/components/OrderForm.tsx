@@ -30,7 +30,7 @@ import {
 import { Separator } from "./ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { orderFormSchema, OrderFormValues } from "@/app/common/OrderFormSchema"
-import { dataFromBackend } from "@/app/common/InputDataSchema"
+import { transformData } from "@/app/common/InputDataSchema"
 import { useEffect } from "react"
 
 // mock data for location
@@ -229,13 +229,19 @@ const OrderExpectation = ({
   )
 }
 
-function onSubmit(values: z.infer<typeof orderFormSchema>) {
-  // replace it with form submission API
-  console.log(values)
-  // setOpen(false)
-}
+// function onSubmit(values: z.infer<typeof orderFormSchema>) {
+//   // replace it with form submission API
+//   console.log(values)
+//   // setOpen(false)
+// }
 
-export default function OrderForm({ data }: { data?: OrderFormValues }) {
+export default function OrderForm({
+  id,
+  data,
+}: {
+  id?: string
+  data?: transformData
+}) {
   const order = data
   const isNewOrderMode = !order
 
@@ -275,6 +281,20 @@ export default function OrderForm({ data }: { data?: OrderFormValues }) {
   useEffect(() => {
     form.reset(order)
   }, [order])
+
+  // based on the mode
+  //  decided whether to create an order or update an order
+  function onSubmit(order: OrderFormValues) {
+    return id ? updateOrder(id, order) : createOrder(order)
+  }
+
+  function createOrder(order: OrderFormValues) {
+    console.log("Creating new order:", order)
+  }
+
+  function updateOrder(order_id: string, order: OrderFormValues) {
+    console.log("Updating order with order id", order_id, "with data", order)
+  }
 
   return (
     <Form {...form}>

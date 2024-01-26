@@ -3,12 +3,6 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import OrderForm from "./OrderForm"
-import { useState } from "react"
-import * as z from "zod"
-import { orderFormSchema } from "@/app/common/OrderFormSchema"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-
-const queryClient = new QueryClient()
 
 export default function NewOrder() {
   return (
@@ -22,9 +16,7 @@ export default function NewOrder() {
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogTitle>Make a new order</DialogTitle>
-        <QueryClientProvider client={queryClient}>
-          <OrderForm />
-        </QueryClientProvider>
+        <OrderForm />
       </DialogContent>
     </Dialog>
   )

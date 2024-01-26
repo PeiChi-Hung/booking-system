@@ -1,4 +1,5 @@
 export interface dataFromBackend {
+  order_id: string
   customer_id: string
   customer_name: string
   order_type: string
@@ -14,7 +15,26 @@ export interface dataFromBackend {
   comment: string
 }
 
+export interface transformData {
+  customer_id: string
+  customer_name: string
+  order_type: string
+  location: {
+    locationValue: string
+    expectation: {
+      start_time: string
+      start_date: Date
+      end_time: string
+      end_date: Date
+    }[]
+  }[]
+  comment: string
+}
+
 export const transformOrderType = (inputData: dataFromBackend) => {
+  const order_id = {
+    order_id: inputData.order_id,
+  }
   const order = {
     customer_id: inputData.customer_id,
     customer_name: inputData.customer_name,
@@ -28,8 +48,8 @@ export const transformOrderType = (inputData: dataFromBackend) => {
         end_date: new Date(exp.end_date),
       })),
     })),
-
     comment: inputData.comment,
   }
-  return order
+
+  return { order_id, order }
 }
