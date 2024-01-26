@@ -3,10 +3,15 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import OrderForm from "./OrderForm"
+import { useState } from "react"
 
 export default function NewOrder() {
+  const [open, setOpen] = useState(false)
+  function onSubmit() {
+    setOpen(false)
+  }
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>New Order</Button>
       </DialogTrigger>
@@ -16,7 +21,7 @@ export default function NewOrder() {
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogTitle>Make a new order</DialogTitle>
-        <OrderForm />
+        <OrderForm onClose={onSubmit} />
       </DialogContent>
     </Dialog>
   )

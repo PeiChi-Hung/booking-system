@@ -238,10 +238,28 @@ const OrderExpectation = ({
 export default function OrderForm({
   id,
   data,
+  onClose,
 }: {
   id?: string
   data?: transformData
+  onClose: () => void
 }) {
+  // based on the mode
+  // decided whether to create an order or update an order
+  function onSubmit(order: OrderFormValues) {
+    return id ? updateOrder(id, order) : createOrder(order)
+  }
+
+  function createOrder(order: OrderFormValues) {
+    console.log("Creating new order:", order)
+    onClose()
+  }
+
+  function updateOrder(order_id: string, order: OrderFormValues) {
+    console.log("Updating order with order id", order_id, "with data", order)
+    onClose()
+  }
+
   const order = data
   const isNewOrderMode = !order
 
@@ -282,20 +300,6 @@ export default function OrderForm({
     form.reset(order)
   }, [order])
 
-  // based on the mode
-  //  decided whether to create an order or update an order
-  function onSubmit(order: OrderFormValues) {
-    return id ? updateOrder(id, order) : createOrder(order)
-  }
-
-  function createOrder(order: OrderFormValues) {
-    console.log("Creating new order:", order)
-  }
-
-  function updateOrder(order_id: string, order: OrderFormValues) {
-    console.log("Updating order with order id", order_id, "with data", order)
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -307,12 +311,8 @@ export default function OrderForm({
             <FormItem>
               <FormLabel>Customer ID</FormLabel>
               <FormControl>
-                {/* TODO: fix padding 0s */}
                 <Input
                   {...field}
-                  // onBlur={(e) =>
-                  //   (e.target.value = e.target.value.padStart(10, "0"))
-                  // }
                   onBlur={(e) =>
                     field.onChange(e.target.value.padStart(10, "0"))
                   }
