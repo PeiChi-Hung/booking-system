@@ -9,15 +9,13 @@ import {
 import Pause from "./Pause"
 import Cancel from "./Cancel"
 import Update from "./Update"
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
 
 const runningOrders = [
   {
     order_id: "ORD001",
     order_date: "2023/04/01",
-    customer_id: "0000000123",
-    customer_name: "Testing-Update",
+    customer_id: "0000000001",
+    customer_name: "Running-example-1",
     order_type: "Type 1",
     location: [
       {
@@ -48,8 +46,8 @@ const runningOrders = [
   {
     order_id: "ORD002",
     order_date: "2023/04/01",
-    customer_id: "0000000123",
-    customer_name: "Testing-Update",
+    customer_id: "0000000002",
+    customer_name: "Running-example-2",
     order_type: "Type 1",
     location: [
       {

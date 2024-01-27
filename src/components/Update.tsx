@@ -22,13 +22,16 @@ export default function Update({ order_id }: { order_id: string }) {
   const useOrder = useQuery({
     queryKey: ["orders", order_id],
     queryFn: async () => {
-      const response = await axios.get("api/order")
+      const response = await axios.get(
+        // mock api/data from postman
+        `https://d634046f-6178-424e-81f4-8bc724bec7e1.mock.pstmn.io/update?order_id=${order_id}`
+      )
       return response.data
     },
-    // disable as long as order_id is empty
+    // // disable as long as order_id is empty
     enabled: !!order_id,
-    // data transformation
-    select: (data) => transformOrderType(data.orders),
+    // // data transformation
+    select: (data) => transformOrderType(data),
   })
 
   return (

@@ -1,5 +1,6 @@
 export interface dataFromBackend {
   order_id: string
+  order_date: string
   customer_id: string
   customer_name: string
   order_type: string
