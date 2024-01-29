@@ -93,42 +93,40 @@ export default function RunningTask() {
             <TableCell>{order.customer_id}</TableCell>
             <TableCell>{order.customer_name}</TableCell>
             <TableCell className="text-right">{order.order_type}</TableCell>
-            <TableCell>
+            <TableCell className="text-right">
               {order.location.map((loc, index) => (
                 <ul key={index}>{loc.locationValue}</ul>
               ))}
             </TableCell>
-            <TableCell>
+            <TableCell className="text-right">
               {order.location.map((loc) =>
                 loc.expectation.map((exp, index) => (
                   <ul key={index}>{exp.start_date}</ul>
                 ))
               )}
             </TableCell>
-            <TableCell>
+            <TableCell className="text-right">
               {order.location.map((loc) =>
                 loc.expectation.map((exp, index) => (
                   <ul key={index}>{exp.end_date}</ul>
                 ))
               )}
             </TableCell>
-            <TableCell>
+            <TableCell className="text-right">
               {order.location.map((loc) =>
                 loc.expectation.map((exp, index) => (
                   <ul key={index}>{exp.start_time}</ul>
                 ))
               )}
             </TableCell>
-            <TableCell>
+            <TableCell className="text-right">
               {order.location.map((loc) =>
                 loc.expectation.map((exp, index) => (
                   <ul key={index}>{exp.end_time}</ul>
                 ))
               )}
             </TableCell>
-
             <TableCell className="text-right">{order.order_type}</TableCell>
-
             <TableCell className="text-right space-x-1 md:space-y-2">
               <Update order_id={order.order_id} />
               <Pause />

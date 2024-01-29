@@ -10,61 +10,54 @@ import Resume from "./Resume"
 import Cancel from "./Cancel"
 import Update from "./Update"
 
-const orders = [
-  {
-    order_id: "ORD001",
-    order_date: "2023/04/01",
-    customer_id: "1",
-    customer_name: "Alpha",
-    start_dates: ["2023/05/01"],
-    start_times: ["09:00"],
-    end_dates: ["2023/05/10"],
-    end_times: ["13:00"],
-    order_type: "Type 1",
-    locations: ["Springvale"],
-  },
-  {
-    order_id: "ORD002",
-    order_date: "2023/05/01",
-    customer_id: "2",
-    customer_name: "Beta",
-    start_dates: ["2023/05/04", "2023/05/19"],
-    start_times: ["09:00", "09:00"],
-    end_dates: ["2023/11/20", "2024/01/01"],
-    end_times: ["11:00", "11:00"],
-    order_type: "Type 2",
-    locations: ["CBD", "Westall"],
-  },
+const pauseOrders = [
   {
     order_id: "ORD003",
-    order_date: "2023/05/04",
-    customer_id: "3",
-    customer_name: "Gamma",
-    start_dates: ["2023/07/29"],
-    start_times: ["09:00"],
-    end_dates: ["2023/09/29"],
-    end_times: ["23:00"],
-    order_type: "Type 3",
-    locations: ["Wheelers Hill"],
+    order_date: "2023/03/01",
+    customer_id: "0000000123",
+    customer_name: "Mock Pause",
+    order_type: "Type 1",
+    location: [
+      {
+        locationValue: "Glen Waverley",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-01-20",
+            end_time: "15:00:00",
+            end_date: "2024-01-25",
+          },
+        ],
+      },
+    ],
+    comment: "Comment for testing",
   },
   {
     order_id: "ORD004",
-    order_date: "2023/05/11",
-    customer_id: "4",
-    customer_name: "Lambda",
-    start_dates: ["2023/07/04"],
-    start_times: ["07:00"],
-    end_dates: ["2023/09/04"],
-    end_times: ["09:00"],
-    order_type: "Type 4",
-    locations: ["Clayton"],
+    order_date: "2023/02/20",
+    customer_id: "0000000999",
+    customer_name: "Mock Pause 2",
+    order_type: "Type 3",
+    location: [
+      {
+        locationValue: "CBD",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-03-22",
+            end_time: "15:00:00",
+            end_date: "2024-04-24",
+          },
+        ],
+      },
+    ],
   },
 ]
 
 export default function PauseTask() {
   return (
     <Table>
-      {/* <TableCaption>A list of your running orders.</TableCaption> */}
+      {/* <TableCaption>A list of your running orders.</TableCaption>  */}
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Order Date</TableHead>
@@ -77,44 +70,51 @@ export default function PauseTask() {
           <TableHead className="text-right">End Date</TableHead>
           <TableHead className="text-right">Start Time</TableHead>
           <TableHead className="text-right">End Time</TableHead>
-          {/* TODO: buttons */}
           <TableHead className="text-right">Comment</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orders.map((order) => (
+        {pauseOrders.map((order) => (
           <TableRow key={order.order_id}>
             <TableCell className="font-medium">{order.order_date}</TableCell>
             <TableCell>{order.customer_id}</TableCell>
             <TableCell>{order.customer_name}</TableCell>
             <TableCell className="text-right">{order.order_type}</TableCell>
             <TableCell className="text-right">
-              {order.locations.map((location) => (
-                <ul key={location}>{location}</ul>
+              {order.location.map((loc, index) => (
+                <ul key={index}>{loc.locationValue}</ul>
               ))}
             </TableCell>
             <TableCell className="text-right">
-              {order.start_dates.map((date, index) => (
-                <ul key={index}>{date}</ul>
-              ))}
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.start_date}</ul>
+                ))
+              )}
             </TableCell>
             <TableCell className="text-right">
-              {order.end_dates.map((date, index) => (
-                <ul key={index}>{date}</ul>
-              ))}
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.end_date}</ul>
+                ))
+              )}
             </TableCell>
             <TableCell className="text-right">
-              {order.start_times.map((time, index) => (
-                <ul key={index}>{time}</ul>
-              ))}
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.start_time}</ul>
+                ))
+              )}
             </TableCell>
             <TableCell className="text-right">
-              {order.end_times.map((time, index) => (
-                <ul key={index}>{time}</ul>
-              ))}
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.end_time}</ul>
+                ))
+              )}
             </TableCell>
-            <TableCell></TableCell>
+            <TableCell className="text-right">{order.order_type}</TableCell>
             <TableCell className="text-right space-x-1 md:space-y-2">
               <Update order_id={order.order_id} />
               <Resume />
