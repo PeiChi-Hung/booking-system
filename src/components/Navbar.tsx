@@ -6,13 +6,13 @@ import UserCard from "./UserCard"
 
 export default function Navbar() {
   const [isOpen, setisOpen] = useState(false)
-  const { data: session } = useSession()
+  // const { data: session } = useSession()
   // console.log(session)
 
   return (
     <nav className="relative flex flex-wrap justify-between items-center lg:h-16 z-10">
       <div className="px-2 lg:px-0">
-        <UserCard user={session?.user} />
+        {/* <UserCard user={session?.user} /> */}
       </div>
       <div className="block lg:hidden">
         <button
@@ -48,7 +48,7 @@ export default function Navbar() {
           <Link href="/report" className="flex">
             Reports
           </Link>
-          {session ? (
+          {/* {session ? (
             <Link href="/api/auth/signout" className="w-full">
               Sign Out
             </Link>
@@ -56,7 +56,7 @@ export default function Navbar() {
             <Link href="/api/auth/signin" className="w-full">
               Sign In
             </Link>
-          )}
+          )} */}
         </div>
       </div>
     </nav>
