@@ -4,10 +4,12 @@ import { z } from "zod"
 export const orderFormSchema = z.object({
   customer_id: z.string().regex(new RegExp("^[0-9]+$")).max(10),
   customer_name: z.string().max(100),
-  order_type: z.string(),
+  order_type: z.string({ required_error: "Please select an order type." }),
   location: z.array(
     z.object({
-      locationValue: z.string(),
+      locationValue: z.string({
+        required_error: "Please select a location value.",
+      }),
       expectation: z.array(
         z
           .object({

@@ -14,8 +14,6 @@ import { cn } from "@/lib/utils"
 import CancelledMobile from "@/components/mobile/CancelledMobile"
 import FailedTask from "@/components/FailedTask"
 import FailedMobile from "@/components/mobile/FailedMobile"
-import { getServerSession } from "next-auth"
-import { options } from "./api/auth/[...nextauth]/options"
 
 // following numbers will be replaced by API
 const runningCount = 4
@@ -26,8 +24,6 @@ const cancelledCount = 4
 const failedCount = 1
 
 export default async function Home() {
-  const session = await getServerSession(options)
-
   return (
     <main>
       <Tabs defaultValue="running" className="mt-3">
