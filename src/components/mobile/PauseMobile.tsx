@@ -7,44 +7,49 @@ import {
   DialogContent,
 } from "../ui/dialog"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import Update from "../Update"
+import Pause from "../Pause"
+import Cancel from "../Cancel"
 
-const orders = [
+const pauseOrders = [
   {
     order_id: "ORD003",
-    order_date: "2023/05/02",
-    customer_id: "0000000002",
-    customer_name: "Beta-paused",
-    order_type: "Type 2",
-    expectations: [
+    order_date: "2023/03/01",
+    customer_id: "0000000123",
+    customer_name: "Mock Pause",
+    order_type: "Type 1",
+    location: [
       {
-        location: "CBD",
-        start_date: "2023/05/04",
-        end_date: "2023/11/20",
-        start_time: "09:00",
-        end_time: "11:00",
-      },
-      {
-        location: "Westall",
-        start_date: "2023/05/10",
-        end_date: "2023/10/20",
-        start_time: "11:00",
-        end_time: "13:00",
+        locationValue: "Glen Waverley",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-01-20",
+            end_time: "15:00:00",
+            end_date: "2024-01-25",
+          },
+        ],
       },
     ],
+    comment: "Comment for testing",
   },
   {
-    order_id: "ORD001",
-    order_date: "2023/04/01",
-    customer_id: "0000000001",
-    customer_name: "Alpha",
-    order_type: "Type 1",
-    expectations: [
+    order_id: "ORD004",
+    order_date: "2023/02/20",
+    customer_id: "0000000999",
+    customer_name: "Mock Pause 2",
+    order_type: "Type 3",
+    location: [
       {
-        location: "CBD",
-        start_date: "2023/05/01",
-        end_date: "2023/05/10",
-        start_time: "09:00",
-        end_time: "13:00",
+        locationValue: "CBD",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-03-22",
+            end_time: "15:00:00",
+            end_date: "2024-04-24",
+          },
+        ],
       },
     ],
   },
@@ -53,13 +58,13 @@ const orders = [
 export default function PauseMobile() {
   return (
     <div>
-      {orders.map((order) => (
+      {pauseOrders.map((order) => (
         <Dialog key={order.order_id}>
           <DialogTrigger className="space-y-1 mb-2 w-full">
-            <Card>
+            <Card className="h-2/3">
               {/* <p className="text-sm font-medium leading-none text-left">
-                {order.customer_name}
-              </p> */}
+              {order.customer_name}
+            </p> */}
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
                 <CardTitle className="text-sm font-medium">
                   {order.customer_name}
@@ -86,21 +91,30 @@ export default function PauseMobile() {
               </p>
             </div>
             {/* <p>Customer Name: {order.customer_name}</p>
-            <p>Customer ID: {order.customer_id}</p> */}
+          <p>Customer ID: {order.customer_id}</p> */}
             <div className="space-y-2">
               <p>Order Type: {order.order_type}</p>
               <p>Order Date: {order.order_date}</p>
               <Separator />
-              {order.expectations.map((expectation, index) => (
-                <div key={index} className="space-y-2">
-                  <p>Location: {expectation.location}</p>
-                  <p>Start Date: {expectation.start_date}</p>
-                  <p>End Date: {expectation.end_date}</p>
-                  <p>Start Time: {expectation.start_time}</p>
-                  <p>End Time: {expectation.end_time}</p>
-                  <Separator />
+              {order.location.map((loc) => (
+                <div>
+                  <ul className="font-bold">{loc.locationValue}</ul>
+                  {loc.expectation.map((exp) => (
+                    <div>
+                      <ul>Start Date:{exp.start_date}</ul>
+                      <ul>End Date: {exp.end_date}</ul>
+                      <ul>Start Time: {exp.start_time}</ul>
+                      <ul>End Time: {exp.end_time}</ul>
+                    </div>
+                  ))}
                 </div>
               ))}
+            </div>
+            <Separator />
+            <div className="grid grid-cols-3 space-x-1">
+              <Update order_id={order.order_id} />
+              <Pause />
+              <Cancel />
             </div>
           </DialogContent>
         </Dialog>
