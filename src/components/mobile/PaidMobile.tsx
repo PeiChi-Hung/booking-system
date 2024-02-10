@@ -89,8 +89,6 @@ export default function PaidMobile() {
                 {order.customer_id}
               </p>
             </div>
-            {/* <p>Customer Name: {order.customer_name}</p>
-            <p>Customer ID: {order.customer_id}</p> */}
             <div className="space-y-2">
               <p>Order Type: {order.order_type}</p>
               <p>Order Date: {order.order_date}</p>

@@ -96,11 +96,11 @@ export default function PauseMobile() {
               <p>Order Type: {order.order_type}</p>
               <p>Order Date: {order.order_date}</p>
               <Separator />
-              {order.location.map((loc) => (
-                <div>
+              {order.location.map((loc, index) => (
+                <div key={index}>
                   <ul className="font-bold">{loc.locationValue}</ul>
-                  {loc.expectation.map((exp) => (
-                    <div>
+                  {loc.expectation.map((exp, inner_index) => (
+                    <div key={inner_index}>
                       <ul>Start Date:{exp.start_date}</ul>
                       <ul>End Date: {exp.end_date}</ul>
                       <ul>Start Time: {exp.start_time}</ul>

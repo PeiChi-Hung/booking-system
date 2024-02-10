@@ -8,56 +8,58 @@ import {
 } from "../ui/dialog"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 
-const orders = [
+const Cancelledorder = [
   {
-    order_id: "ORD003",
-    order_date: "2023/05/02",
-    customer_id: "0000000002",
-    customer_name: "Beta-cancelled",
-    order_type: "Type 2",
-    expectations: [
+    order_id: "ORD009",
+    order_date: "2022/03/01",
+    customer_id: "0000000123",
+    customer_name: "Mock Cancelled",
+    order_type: "Type 1",
+    location: [
       {
-        location: "CBD",
-        start_date: "2023/05/04",
-        end_date: "2023/11/20",
-        start_time: "09:00",
-        end_time: "11:00",
-      },
-      {
-        location: "Westall",
-        start_date: "2023/05/10",
-        end_date: "2023/10/20",
-        start_time: "11:00",
-        end_time: "13:00",
+        locationValue: "Glen Waverley",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-01-20",
+            end_time: "15:00:00",
+            end_date: "2022-03-22",
+          },
+        ],
       },
     ],
-    service_fee: 250,
-    cancelled_date: "2023/11/10",
+    service_fee: "$250",
+    comment: "Comment for testing",
+    cancelled_date: "2022/03/02",
   },
   {
-    order_id: "ORD001",
-    order_date: "2023/04/01",
-    customer_id: "0000000001",
-    customer_name: "Alpha",
-    order_type: "Type 1",
-    expectations: [
+    order_id: "ORD010",
+    order_date: "2023/10/20",
+    customer_id: "0000000999",
+    customer_name: "Mock Cancelled 2",
+    order_type: "Type 3",
+    location: [
       {
-        location: "CBD",
-        start_date: "2023/05/01",
-        end_date: "2023/05/10",
-        start_time: "09:00",
-        end_time: "13:00",
+        locationValue: "CBD",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-03-22",
+            end_time: "15:00:00",
+            end_date: "2023-11-12",
+          },
+        ],
       },
     ],
-    service_fee: 350,
-    cancelled_date: "2023/11/10",
+    service_fee: "$200",
+    cancelled_date: "2023/10/22",
   },
 ]
 
 export default function CancelledMobile() {
   return (
     <div>
-      {orders.map((order) => (
+      {Cancelledorder.map((order) => (
         <Dialog key={order.order_id}>
           <DialogTrigger className="space-y-1 mb-2 w-full">
             <Card>
@@ -95,14 +97,17 @@ export default function CancelledMobile() {
               <p>Order Type: {order.order_type}</p>
               <p>Order Date: {order.order_date}</p>
               <Separator />
-              {order.expectations.map((expectation, index) => (
-                <div key={index} className="space-y-2">
-                  <p>Location: {expectation.location}</p>
-                  <p>Start Date: {expectation.start_date}</p>
-                  <p>End Date: {expectation.end_date}</p>
-                  <p>Start Time: {expectation.start_time}</p>
-                  <p>End Time: {expectation.end_time}</p>
-                  <Separator />
+              {order.location.map((loc, index) => (
+                <div key={index}>
+                  <ul className="font-bold">{loc.locationValue}</ul>
+                  {loc.expectation.map((exp, inner_index) => (
+                    <div key={inner_index}>
+                      <ul>Start Date:{exp.start_date}</ul>
+                      <ul>End Date: {exp.end_date}</ul>
+                      <ul>Start Time: {exp.start_time}</ul>
+                      <ul>End Time: {exp.end_time}</ul>
+                    </div>
+                  ))}
                 </div>
               ))}
               <p>Service Fee: {order.service_fee}</p>

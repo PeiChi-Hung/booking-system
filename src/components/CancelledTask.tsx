@@ -7,62 +7,51 @@ import {
   TableRow,
 } from "./ui/table"
 
-const orders = [
+const Cancelledorder = [
   {
-    order_id: "ORD001",
-    order_date: "2023/04/01",
-    customer_id: "1",
-    customer_name: "Alpha",
-    start_dates: ["2023/05/01", "2023/05/02"],
-    start_times: ["09:00", "09:00"],
-    end_dates: ["2023/05/10", "2023/05/11"],
-    end_times: ["13:00", "14:00"],
+    order_id: "ORD009",
+    order_date: "2022/03/01",
+    customer_id: "0000000123",
+    customer_name: "Mock Cancelled",
     order_type: "Type 1",
-    location: "Springvale",
+    location: [
+      {
+        locationValue: "Glen Waverley",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-01-20",
+            end_time: "15:00:00",
+            end_date: "2022-03-22",
+          },
+        ],
+      },
+    ],
     service_fee: "$250",
-    cancel_date: "2023/05/10",
+    comment: "Comment for testing",
+    cancelled_date: "2022/03/02",
   },
   {
-    order_id: "ORD002",
-    order_date: "2023/05/01",
-    customer_id: "2",
-    customer_name: "Beta",
-    start_dates: ["2023/05/04"],
-    start_times: ["09:00"],
-    end_dates: ["2023/11/20"],
-    end_times: ["11:00"],
-    order_type: "Type 2",
-    location: "CBD",
-    service_fee: "$350",
-    cancel_date: "2023/10/10",
-  },
-  {
-    order_id: "ORD003",
-    order_date: "2023/05/04",
-    customer_id: "3",
-    customer_name: "Gamma",
-    start_dates: ["2023/07/29"],
-    start_times: ["09:00"],
-    end_dates: ["2023/09/29"],
-    end_times: ["23:00"],
+    order_id: "ORD010",
+    order_date: "2023/10/20",
+    customer_id: "0000000999",
+    customer_name: "Mock Cancelled 2",
     order_type: "Type 3",
-    location: "Wheelers Hill",
-    service_fee: "$240",
-    cancel_date: "2023/11/10",
-  },
-  {
-    order_id: "ORD004",
-    order_date: "2023/05/11",
-    customer_id: "4",
-    customer_name: "Lambda",
-    start_dates: ["2023/07/04"],
-    start_times: ["07:00"],
-    end_dates: ["2023/09/04"],
-    end_times: ["09:00"],
-    order_type: "Type 4",
-    location: "Clayton",
+    location: [
+      {
+        locationValue: "CBD",
+        expectation: [
+          {
+            start_time: "10:00:00",
+            start_date: "2024-03-22",
+            end_time: "15:00:00",
+            end_date: "2023-11-12",
+          },
+        ],
+      },
+    ],
     service_fee: "$200",
-    cancel_date: "2024/01/10",
+    cancelled_date: "2023/10/22",
   },
 ]
 
@@ -87,36 +76,48 @@ export default function CancelledTask() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orders.map((order) => (
+        {Cancelledorder.map((order) => (
           <TableRow key={order.order_id}>
             <TableCell className="font-medium">{order.order_date}</TableCell>
             <TableCell>{order.customer_id}</TableCell>
             <TableCell>{order.customer_name}</TableCell>
             <TableCell className="text-right">{order.order_type}</TableCell>
-            <TableCell className="text-right">{order.location}</TableCell>
             <TableCell className="text-right">
-              {order.start_dates.map((date, index) => (
-                <ul key={index}>{date}</ul>
+              {order.location.map((loc, index) => (
+                <ul key={index}>{loc.locationValue}</ul>
               ))}
             </TableCell>
             <TableCell className="text-right">
-              {order.end_dates.map((date, index) => (
-                <ul key={index}>{date}</ul>
-              ))}
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.start_date}</ul>
+                ))
+              )}
             </TableCell>
             <TableCell className="text-right">
-              {order.start_times.map((time, index) => (
-                <ul key={index}>{time}</ul>
-              ))}
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.end_date}</ul>
+                ))
+              )}
             </TableCell>
             <TableCell className="text-right">
-              {order.end_times.map((time, index) => (
-                <ul key={index}>{time}</ul>
-              ))}
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.start_time}</ul>
+                ))
+              )}
+            </TableCell>
+            <TableCell className="text-right">
+              {order.location.map((loc) =>
+                loc.expectation.map((exp, index) => (
+                  <ul key={index}>{exp.end_time}</ul>
+                ))
+              )}
             </TableCell>
             <TableCell></TableCell>
             <TableCell className="text-right">{order.service_fee}</TableCell>
-            <TableCell className="text-right">{order.cancel_date}</TableCell>
+            <TableCell className="text-right">{order.cancelled_date}</TableCell>
           </TableRow>
         ))}
       </TableBody>
